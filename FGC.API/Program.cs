@@ -1,4 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using FGC.API.Models;
+using FGC.API.Controllers;
+using FGC.API.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<FGCAPIContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("FGCAPIContext") ?? throw new InvalidOperationException("Connection string 'FGCAPIContext' not found.")));
 
 // Add services to the container.
 
@@ -21,5 +28,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapUsersEndpoints();
+
+//app.MapUsersEndpoints();
 
 app.Run();

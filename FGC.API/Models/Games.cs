@@ -1,5 +1,4 @@
-﻿using FGC.API.Models.FGC.API.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FGC.API.Models
 {
