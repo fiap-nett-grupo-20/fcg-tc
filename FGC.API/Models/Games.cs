@@ -67,8 +67,6 @@ namespace FGC.API.Models
         [StringLength(500)]
         public string ImageUrl { get; set; } //capa do jogo
 
-        public int UserId { get; set; }
-        public Users User { get; set; }
-        //relacionamento com a tabela de usuarios
+        
     }
 }

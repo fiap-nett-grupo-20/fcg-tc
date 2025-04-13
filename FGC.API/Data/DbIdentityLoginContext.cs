@@ -4,16 +4,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using FGC.API.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace FGC.API.Data
 {
-    public class FGCAPIContext : DbContext
+    public class DbIdentityLoginContext : IdentityDbContext
     {
-        public FGCAPIContext (DbContextOptions<FGCAPIContext> options)
+        public DbIdentityLoginContext (DbContextOptions<DbIdentityLoginContext> options)
             : base(options)
         {
         }
 
-        public DbSet<FGC.API.Models.Users> Users { get; set; } = default!;
+
+        
     }
 }
