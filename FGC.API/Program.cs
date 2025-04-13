@@ -15,10 +15,6 @@ builder.Services.AddDbContext<DbIdentityLoginContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DbIdentityLoginContext")
     ?? throw new InvalidOperationException("Connection string 'DbIdentityLoginContext' not found.")));
 
-
-
-// Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -48,6 +44,11 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 })
 .AddEntityFrameworkStores<DbIdentityLoginContext>()
 .AddDefaultTokenProviders();
+
+
+// Adicione autenticação e autorização se necessário
+// builder.Services.AddAuthentication(...)
+// builder.Services.AddAuthorization(...)
 
 var app = builder.Build();
 
