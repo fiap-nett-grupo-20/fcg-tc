@@ -24,14 +24,27 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-/*Configurar o identity*/
+/*Configurei o identity e depois criei a migration 
+add-migration IdentityUsersCreate
+Update-Database -Context DbIdentityLoginContext
+*/
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
     options.Password.RequireDigit = true;
+    // Exige que a senha contenha pelo menos um dígito numérico (0-9).
+
     options.Password.RequireLowercase = true;
+    // Exige que a senha contenha pelo menos uma letra minúscula (a-z).
+
     options.Password.RequireUppercase = true;
+    // Exige que a senha contenha pelo menos uma letra maiúscula (A-Z).
+
     options.Password.RequireNonAlphanumeric = true;
+    // Exige que a senha contenha pelo menos um caractere não alfanumérico (ex.: !, @, #, $, etc.).
+
     options.Password.RequiredLength = 8;
+    // Define o comprimento mínimo da senha como 8 caracteres.
+
 })
 .AddEntityFrameworkStores<DbIdentityLoginContext>()
 .AddDefaultTokenProviders();
