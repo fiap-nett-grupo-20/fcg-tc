@@ -78,16 +78,11 @@ public class RolesController : ControllerBase
             return NotFound();
         }
 
-        // Cuidado: sempre verificar se a role está em uso antes de excluir,
-        // Ex: var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
-        // if (usersInRole.Any()) { return BadRequest("Role está em uso."); }
-
-
         var result = await _roleManager.DeleteAsync(role);
 
         if (result.Succeeded)
         {
-            return NoContent(); // Sucesso
+            return NoContent();
         }
         else
         {
@@ -95,11 +90,10 @@ public class RolesController : ControllerBase
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
-            return BadRequest(ModelState); // Ou InternalServerError
+            return BadRequest(ModelState); 
         }
     }
 
-    // PUT api/Roles/{id} - Atualizar nome (menos comum, mas possível)
     public class UpdateRoleModel
     {
         public required string Name { get; set; }
@@ -114,7 +108,6 @@ public class RolesController : ControllerBase
             return NotFound();
         }
 
-        // Verifica se o novo nome já existe (exceto para a própria role sendo atualizada)
         var existingRole = await _roleManager.FindByNameAsync(model.Name);
         if (existingRole != null && existingRole.Id != id)
         {
@@ -123,7 +116,6 @@ public class RolesController : ControllerBase
         }
 
         role.Name = model.Name;
-        // role.NormalizedName = _roleManager.NormalizeKey(model.Name); // O UpdateAsync deve cuidar disso
 
         var result = await _roleManager.UpdateAsync(role);
 
