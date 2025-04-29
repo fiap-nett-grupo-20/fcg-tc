@@ -10,7 +10,8 @@ public class PasswordTests
     public void Constructor_ValidPassword_CreatesInstance(string validPassword)
     {
         var password = new Password(validPassword);
-        Assert.Equal(validPassword, password.Value);
+        Assert.NotNull(password.Hash);
+        Assert.NotEmpty(password.Hash);
     }
 
     [Theory]
