@@ -40,4 +40,12 @@ public class GameTests
         // Arrange & Act & Assert
         Assert.Throws<ArgumentException>(() => new Game("Test Game", -10m, "", ""));
     }
+
+    [Fact]
+    public void Constructor_GeneratesIdAutomatically()
+    {
+        var game = new Game("Título", 10.99m, "Descrição", "Ação");
+        Assert.NotNull(game.Id);
+        Assert.NotEmpty(game.Id);
+    }
 }

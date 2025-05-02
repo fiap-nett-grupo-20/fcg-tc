@@ -1,4 +1,5 @@
 ﻿using FCG.Domain.Entities;
+using FCG.Domain.Enums;
 using FCG.Domain.ValueObjects;
 
 namespace FCG.Tests.Domain.Entities;
@@ -27,11 +28,26 @@ public class UserTests
     public void Constructor_InvalidName_ThrowsException(string invalidName)
     {
         // Arrange
-        var email = new Email("joao@fiap.com.br");
+        var email = new Email("rm000000@fiap.com.br");
         var password = new Password("Senha@123");
 
         // Act & Assert
         Assert.Throws<ArgumentException>(() => new User(invalidName, email, password));
+    }
+
+    // --- Testes para Id e Role ---
+    [Fact]
+    public void Constructor_DefaultRole_IsUser()
+    {
+        var user = new User("José", new Email("rm000000@fiap.com.br"), new Password("Senha@123"));
+        Assert.Equal(UserRole.User, user.Role);
+    }
+
+    [Fact]
+    public void Constructor_AdminRole_SetsRoleCorrectly()
+    {
+        var user = new User("Admin", new Email("admin@fiap.com.br"), new Password("Senha@123"), UserRole.Admin);
+        Assert.Equal(UserRole.Admin, user.Role);
     }
 
     // --- Testes para Email (via VO) ---
