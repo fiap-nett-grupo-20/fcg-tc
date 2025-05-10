@@ -2,7 +2,7 @@
 {
     public class InvalidTokenException : BusinessErrorDetailsException
     {
-        public InvalidTokenException(string code, string message) : base(code, message)
+        public InvalidTokenException(string code, string message) : base(message)
         {
         }
     }
