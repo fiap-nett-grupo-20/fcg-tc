@@ -67,6 +67,6 @@ namespace FGC.API.Models
         [StringLength(500)]
         public string ImageUrl { get; set; } //capa do jogo
 
-        
+
     }
 }
