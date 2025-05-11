@@ -1,9 +1,9 @@
 ﻿using FGC.API.DTO;
 using FGC.API.Middleware;
 using FGC.API.Models;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using static UsersController;
 
 public class UserService : IUserService
 {

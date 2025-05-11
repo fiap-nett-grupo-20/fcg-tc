@@ -1,11 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using FGC.API.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace FGC.API.Data
 {
 
-    public class DbIdentityLoginContext : IdentityDbContext<User> 
+    public class DbIdentityLoginContext : IdentityDbContext<User>
     {
         public DbIdentityLoginContext(DbContextOptions<DbIdentityLoginContext> options)
             : base(options)
@@ -16,7 +15,7 @@ namespace FGC.API.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<User>(entity => 
+            builder.Entity<User>(entity =>
             {
                 entity.Property(e => e.NameUser)
                       .HasMaxLength(200)

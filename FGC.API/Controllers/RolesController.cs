@@ -19,7 +19,7 @@ public class RolesController : ControllerBase
     public async Task<ActionResult<IEnumerable<IdentityRole>>> GetRoles()
     {
         var roles = await _roleManager.Roles.ToListAsync();
-        return Ok(roles); 
+        return Ok(roles);
     }
 
     // GET: api/Roles/{id}
@@ -90,7 +90,7 @@ public class RolesController : ControllerBase
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
-            return BadRequest(ModelState); 
+            return BadRequest(ModelState);
         }
     }
 
