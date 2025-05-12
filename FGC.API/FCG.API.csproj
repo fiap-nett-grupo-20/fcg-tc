@@ -28,4 +28,8 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.9.0" />
   </ItemGroup>
 
+ <ItemGroup>
+   <ProjectReference Include="..\FCG.Application\FCG.Application.csproj" />
+ </ItemGroup>
+
 </Project>

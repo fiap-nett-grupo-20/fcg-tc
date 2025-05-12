@@ -1,5 +1,6 @@
-﻿using FGC.API.DTO;
-using FGC.API.Models;
+﻿
+
+using FCG.Application.DTO;
 
 public interface IUserService
 {

@@ -1,4 +1,4 @@
-﻿namespace FGC.API.DTO
+﻿namespace FCG.Application.DTO
 {
     public class GameDTO
     {

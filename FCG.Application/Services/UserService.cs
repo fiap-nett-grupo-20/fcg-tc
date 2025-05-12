@@ -1,7 +1,6 @@
-﻿using FGC.API.DTO;
-using FGC.API.Middleware;
-using FGC.API.Models;
-
+﻿using FCG.Application.DTO;
+using FCG.Domain.Entities;
+using FCG.Domain.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,9 +21,8 @@ public class UserService : IUserService
         return users.Select(user => new UserDto
         {
             Id = user.Id,
-            NameUser = user.NameUser,
-            UserName = user.UserName,
-            Email = user.Email,
+            NameUser = user.Name,
+            Email = user.Email.Value,
             Roles = _userManager.GetRolesAsync(user).Result.ToList()
         });
     }
@@ -39,9 +37,8 @@ public class UserService : IUserService
         return new UserDto
         {
             Id = user.Id,
-            NameUser = user.NameUser,
-            UserName = user.UserName,
-            Email = user.Email,
+            NameUser = user.Name,
+            Email = user.Email.Value,
             Roles = roles.ToList()
         };
     }
@@ -49,11 +46,11 @@ public class UserService : IUserService
     public async Task<UserDto> CreateUserAsync(CreateUserModel model)
     {
         var user = new User
-        {
-            NameUser = model.NameUser,
-            UserName = model.UserName,
-            Email = model.Email
-        };
+        (
+            model.NameUser,
+            model.Email,
+            model.Password
+        );
 
         var result = await _userManager.CreateAsync(user, model.Password);
         if (!result.Succeeded)
@@ -74,9 +71,8 @@ public class UserService : IUserService
         return new UserDto
         {
             Id = user.Id,
-            NameUser = user.NameUser,
-            UserName = user.UserName,
-            Email = user.Email,
+            NameUser = user.Name,
+            Email = user.Email.Value,
             Roles = roles.ToList()
         };
     }
@@ -88,7 +84,7 @@ public class UserService : IUserService
             throw new BusinessErrorDetailsException("Usuário não encontrado.");
 
         if (!string.IsNullOrWhiteSpace(model.NameUser))
-            user.NameUser = model.NameUser;
+            user.Name = model.NameUser;
 
         if (!string.IsNullOrWhiteSpace(model.Email))
         {

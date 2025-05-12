@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FGC.API.Models
+namespace FCG.Application.DTO
 {
     public class UpdateUserModel
     {

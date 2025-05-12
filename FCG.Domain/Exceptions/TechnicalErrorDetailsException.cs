@@ -1,4 +1,6 @@
-﻿namespace FGC.API.Middleware
+﻿using Microsoft.AspNetCore.Http;
+
+namespace FCG.Domain.Exceptions
 {
     public class TechnicalErrorDetailsException : BaseCustomException
     {

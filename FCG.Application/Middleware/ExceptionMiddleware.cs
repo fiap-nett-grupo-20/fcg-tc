@@ -1,6 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using FCG.Domain.Exceptions;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
-namespace FGC.API.Middleware
+namespace FCG.Application.Middleware
 {
     public class ExceptionMiddleware
     {

@@ -3,7 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using FGC.API.Models;
+using FCG.Domain.Entities;
 
 public class JwtService
 {
@@ -19,8 +19,8 @@ public class JwtService
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim(ClaimTypes.Name, user.UserName!),
-            new Claim(ClaimTypes.Email, user.Email!)
+            new Claim(ClaimTypes.Name, user.Name!),
+            new Claim(ClaimTypes.Email, user.Email.Value!)
         };
 
         foreach (var role in roles)

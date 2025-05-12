@@ -1,5 +1,5 @@
-using FGC.API.Data;
-using FGC.API.Middleware;
+using FCG.Application.Middleware;
+using FCG.Domain.Entities;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -7,9 +7,10 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddDbContext<DbIdentityLoginContext>(options =>
+/*builder.Services.AddDbContext<DbIdentityLoginContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DbIdentityLoginContext")
     ?? throw new InvalidOperationException("Connection string 'DbIdentityLoginContext' não encontrada.")));
+*/
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -17,7 +18,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<JwtService>();
 
-builder.Services.AddIdentity<User, IdentityRole>(options =>
+/*builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
@@ -28,7 +29,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 
 })
 .AddEntityFrameworkStores<DbIdentityLoginContext>()
-.AddDefaultTokenProviders();
+.AddDefaultTokenProviders();*/
 
 var app = builder.Build();
 

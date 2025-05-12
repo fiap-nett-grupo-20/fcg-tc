@@ -1,4 +1,4 @@
-﻿namespace FGC.API.Controllers
+﻿namespace FCG.API.Controllers
 {
     public class GamesController
     {

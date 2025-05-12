@@ -1,4 +1,4 @@
-﻿namespace FGC.API.Middleware
+﻿namespace FCG.Domain.Exceptions
 {
     public abstract class BaseCustomException : Exception
     {

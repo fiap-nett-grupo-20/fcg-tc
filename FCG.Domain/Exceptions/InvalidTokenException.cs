@@ -1,4 +1,4 @@
-﻿namespace FGC.API.Middleware.Exceptions
+﻿namespace FCG.Domain.Exceptions
 {
     public class InvalidTokenException : BusinessErrorDetailsException
     {

@@ -1,6 +1,6 @@
-﻿using FGC.API.DTO;
-using FGC.API.Models;
-
+﻿using FCG.Application;
+using FCG.Application.DTO;
+using FCG.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
