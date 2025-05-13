@@ -4,12 +4,14 @@ namespace FCG.Domain.ValueObjects;
 
 public record Password
 {
-    public string Hash { get; }
+    public string? Hash { get; }
     public Password(string plainTextPassword)
     {
         ValidatePassword(plainTextPassword);
         Hash = BCrypt.Net.BCrypt.HashPassword(plainTextPassword);
     }
+
+    protected Password() { } // For EF Core
 
     private void ValidatePassword(string plainTextPassword)
     {
