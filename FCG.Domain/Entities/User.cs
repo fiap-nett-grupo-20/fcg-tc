@@ -20,16 +20,6 @@ public class User
         Role = role;
     }
 
-    public User(string name, Email email, Password password, UserRole role = UserRole.User)
-    {
-        ValidateName(name);
-        Id = Guid.NewGuid().ToString();
-        Name = name;
-        Email = email;
-        Password = password;
-        Role = role;
-    }
-
     protected User() { } // For EF Core
 
     private static void ValidateName(string name)

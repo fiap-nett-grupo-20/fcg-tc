@@ -10,12 +10,8 @@ public class UserTests
     [Fact]
     public void Constructor_ValidName_CreatesUser()
     {
-        // Arrange
-        var email = new Email("rm000000@fiap.com.br");
-        var password = new Password("Senha@123");
-
-        // Act
-        var user = new User("José Silva", email, password);
+        // Arrange & Act
+        var user = new User("José Silva", "rm000000@fiap.com.br", "Senha@123");
 
         // Assert
         Assert.Equal("José Silva", user.Name);
@@ -27,26 +23,28 @@ public class UserTests
     [InlineData("   ")]
     public void Constructor_InvalidName_ThrowsException(string invalidName)
     {
-        // Arrange
-        var email = new Email("rm000000@fiap.com.br");
-        var password = new Password("Senha@123");
-
-        // Act & Assert
-        Assert.Throws<ArgumentException>(() => new User(invalidName, email, password));
+        // Arrange, Act & Assert
+        Assert.Throws<ArgumentException>(() => new User(invalidName, "rm000000@fiap.com.br", "Senha@123"));
     }
 
     // --- Testes para Id e Role ---
     [Fact]
     public void Constructor_DefaultRole_IsUser()
     {
-        var user = new User("José", new Email("rm000000@fiap.com.br"), new Password("Senha@123"));
+        // Arrange & Act
+        var user = new User("José", "rm000000@fiap.com.br", "Senha@123");
+
+        // Assert
         Assert.Equal(UserRole.User, user.Role);
     }
 
     [Fact]
     public void Constructor_AdminRole_SetsRoleCorrectly()
     {
-        var user = new User("Admin", new Email("admin@fiap.com.br"), new Password("Senha@123"), UserRole.Admin);
+        // Arrange & Act
+        var user = new User("Admin", "admin@fiap.com.br", "Senha@123", UserRole.Admin);
+
+        // Assert
         Assert.Equal(UserRole.Admin, user.Role);
     }
 
@@ -54,42 +52,21 @@ public class UserTests
     [Fact]
     public void Constructor_ValidEmailVO_CreatesUser()
     {
-        // Arrange
-        var validEmail = new Email("aluno@fiap.com.br");
-        var password = new Password("Senha@123");
-
-        // Act
-        var user = new User("José Silva", validEmail, password);
+        // Arrange & Act
+        var user = new User("José Silva", "aluno@fiap.com.br", "Senha@123");
 
         // Assert
-        Assert.Equal(validEmail, user.Email);
+        Assert.Equal("aluno@fiap.com.br", user.Email!.Address);
     }
 
     // --- Testes para Password (via VO) ---
     [Fact]
-    public void Constructor_ValidPasswordVO_CreatesUser()
-    {
-        // Arrange
-        var email = new Email("rm000000@fiap.com.br");
-        var validPassword = new Password("Pa$$w0rd");
-
-        // Act
-        var user = new User("José Silva", email, validPassword);
-
-        // Assert
-        Assert.Equal(validPassword, user.Password);
-    }
-
-    // --- Teste para verificação de senha ---
-    [Fact]
     public void VerifyPassword_CorrectPassword_ReturnsTrue()
     {
-        // Arrange
-        var email = new Email("rm000000@fiap.com.br");
-        var password = new Password("Senha@123");
-        var user = new User("José Silva", email, password);
+        // Arrange & Act
+        var user = new User("José Silva", "rm000000@fiap.com.br", "Pa$$w0rd");
 
-        // Act & Assert
-        Assert.True(user.VerifyPassword("Senha@123")); // Método na entidade User
+        // Assert
+        Assert.True(user.VerifyPassword("Pa$$w0rd"));
     }
 }

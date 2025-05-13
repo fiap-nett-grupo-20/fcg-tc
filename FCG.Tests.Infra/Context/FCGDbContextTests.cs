@@ -1,5 +1,4 @@
 ﻿using FCG.Domain.Entities;
-using FCG.Domain.ValueObjects;
 using FCG.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 

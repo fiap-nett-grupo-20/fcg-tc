@@ -54,7 +54,7 @@ public class UserRepositoryTests
     public async Task UpdateAsync_ExistUser_ShouldUpdateUser()
     {
         // Arrange
-        var user = new User("José Silva", new Email("rm000000@fiap.com.br"), new Password("Senha@123"));
+        var user = new User("José Silva", "rm000000@fiap.com.br", "Senha@123");
 
         // Act
         await _repository.AddAsync(user);
