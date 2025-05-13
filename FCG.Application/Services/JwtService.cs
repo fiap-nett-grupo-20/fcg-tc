@@ -20,7 +20,7 @@ public class JwtService
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id),
             new Claim(ClaimTypes.Name, user.Name!),
-            new Claim(ClaimTypes.Email, user.Email.Value!)
+            new Claim(ClaimTypes.Email, user.Email.Address!)
         };
 
         foreach (var role in roles)

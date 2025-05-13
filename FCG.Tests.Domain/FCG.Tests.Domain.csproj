@@ -10,6 +10,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="FCG.Infrastructure\**" />
+    <Compile Remove="FCG.Tests.Domain\**" />
+    <EmbeddedResource Remove="FCG.Infrastructure\**" />
+    <EmbeddedResource Remove="FCG.Tests.Domain\**" />
+    <None Remove="FCG.Infrastructure\**" />
+    <None Remove="FCG.Tests.Domain\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="xunit" Version="2.5.3" />

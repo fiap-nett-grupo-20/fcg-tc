@@ -10,7 +10,7 @@ public class EmailTests
     public void Constructor_ValidEmail_CreatesInstance(string validEmail)
     {
         var email = new Email(validEmail);
-        Assert.Equal(validEmail, email.Value);
+        Assert.Equal(validEmail, email.Address);
     }
 
     [Theory]
