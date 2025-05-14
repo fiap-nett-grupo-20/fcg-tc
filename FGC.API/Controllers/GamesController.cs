@@ -40,17 +40,26 @@ namespace FCG.API.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public IActionResult Get([FromRoute] int id)
+        public async Task<ActionResult<GameDTO>> GetGame(int id)
         {
             try
             {
-                return Ok(_gameRepository.GetByIdAsync(id));
+                var game = await _gameRepository.GetByIdAsync(id);
+                return Ok(game);
             }
-            catch (Exception ex)
+            catch (FormatException ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
+       /* [HttpPost]
+        public async Task<ActionResult<GameDTO>> CreateGame(CreateGameModel model)
+        {
+            var user = await _userService.CreateUserAsync(model);
+            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
+        }*/
+
         /*
         [HttpPost]
         public IActionResult Post()
@@ -64,8 +73,8 @@ namespace FCG.API.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }
-        
+        }*/
+        /*
         [HttpPut]
         public IActionResult Put()
         {
