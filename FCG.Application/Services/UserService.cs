@@ -22,7 +22,7 @@ public class UserService : IUserService
         {
             Id = user.Id,
             NameUser = user.Name,
-            Email = user.Email.Value,
+            Email = user.Email.Address,
             Roles = _userManager.GetRolesAsync(user).Result.ToList()
         });
     }
@@ -38,7 +38,7 @@ public class UserService : IUserService
         {
             Id = user.Id,
             NameUser = user.Name,
-            Email = user.Email.Value,
+            Email = user.Email.Address,
             Roles = roles.ToList()
         };
     }
@@ -72,7 +72,7 @@ public class UserService : IUserService
         {
             Id = user.Id,
             NameUser = user.Name,
-            Email = user.Email.Value,
+            Email = user.Email.Address,
             Roles = roles.ToList()
         };
     }
