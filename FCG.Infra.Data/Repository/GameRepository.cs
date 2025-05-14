@@ -14,11 +14,10 @@ public class GameRepository(FCGDbContext context) : IGameRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(string id)
+
+    public Task DeleteAsync(int id)
     {
-        var game = await GetByIdAsync(id); 
-        _context.Games.Remove(game);
-        await _context.SaveChangesAsync();
+        throw new NotImplementedException();
     }
 
     public async Task<IEnumerable<Game>> GetAllAsync()
@@ -28,7 +27,7 @@ public class GameRepository(FCGDbContext context) : IGameRepository
             .ToListAsync();
     }
 
-    public async Task<Game> GetByIdAsync(string id)
+    public async Task<Game> GetByIdAsync(int id)
     {
         return await _context.Games
             .FindAsync(id)

@@ -2,7 +2,7 @@
 
 public class Game
 {
-    public string? Id { get; private set; }
+    public int? Id { get; private set; }
     public string? Title { get; private set; }
     public decimal Price { get; private set; }
     public string? Description { get; private set; }
@@ -12,7 +12,17 @@ public class Game
     {
         ValidateTitle(title);
         ValidatePrice(price);
-        Id = Guid.NewGuid().ToString();
+        Title = title;
+        Price = price;
+        Description = description;
+        Genre = genre;
+    }
+
+    public Game(int id, string title, decimal price, string description, string genre)
+    {
+        ValidateTitle(title);
+        ValidatePrice(price);
+        Id = id;
         Title = title;
         Price = price;
         Description = description;
