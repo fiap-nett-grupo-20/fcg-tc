@@ -15,9 +15,11 @@ public class GameRepository(FCGDbContext context) : IGameRepository
     }
 
 
-    public Task DeleteAsync(int id)
+    public async Task DeleteAsync(int id)
     {
-        throw new NotImplementedException();
+        var game = await GetByIdAsync(id);
+        _context.Games.Remove(game);
+        await _context.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<Game>> GetAllAsync()

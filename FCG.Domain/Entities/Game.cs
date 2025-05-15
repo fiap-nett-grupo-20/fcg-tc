@@ -2,11 +2,11 @@
 
 public class Game
 {
-    public int? Id { get; private set; }
-    public string? Title { get; private set; }
-    public decimal Price { get; private set; }
-    public string? Description { get; private set; }
-    public string? Genre { get; private set; }
+    public int? Id { get;  set; }
+    public string? Title { get;  set; }
+    public decimal Price { get;  set; }
+    public string? Description { get;  set; }
+    public string? Genre { get;  set; }
 
     public Game(string title, decimal price, string description, string genre)
     {
@@ -29,7 +29,7 @@ public class Game
         Genre = genre;
     }
 
-    protected Game() { } // For EF Core
+    public Game() { } // For EF Core
 
     private static void ValidatePrice(decimal price)
     {

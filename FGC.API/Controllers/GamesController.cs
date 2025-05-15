@@ -1,4 +1,5 @@
 ﻿using FCG.Application.DTO;
+using FCG.Domain.Entities;
 using FCG.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -53,33 +54,21 @@ namespace FCG.API.Controllers
             }
         }
 
-       /* [HttpPost]
+        [HttpPost]
         public async Task<ActionResult<GameDTO>> CreateGame(CreateGameModel model)
         {
-            var user = await _userService.CreateUserAsync(model);
-            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
-        }*/
-
-        /*
-        [HttpPost]
-        public IActionResult Post()
-        {
+            /*var user = await _userService.CreateUserAsync(model);
+            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);*/
             try
             {
-                
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }*/
-        /*
-        [HttpPut]
-        public IActionResult Put()
-        {
-            try
-            {
+                var game = new Game()
+                {
+                    Title = model.Title,
+                    Price = model.Price,
+                    Description = model.Description,
+                    Genre = model.Genre,
+                };
+                await _gameRepository.AddAsync(game);
                 return Ok();
             }
             catch (Exception ex)
@@ -88,18 +77,41 @@ namespace FCG.API.Controllers
             }
         }
 
-        [HttpDelete("{id:int}")]
-        public IActionResult Delete([FromRoute] int id)
+       
+        [HttpPut]
+        public async Task<IActionResult> PutAsync([FromBody] UpdateGameModel model)
         {
             try
             {
-                _gameRepository.DeleteAsync(id);
+                var game = await _gameRepository.GetByIdAsync(model.Id);
+
+                game.Title = model.Title;
+                game.Description = model.Description;
+                game.Genre = model.Genre;
+
+                await _gameRepository.UpdateAsync(game);
+
                 return Ok();
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-        }*/
+        }
+        
+        
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteAsync([FromRoute] int id)
+        {
+            try
+            {
+                await _gameRepository.DeleteAsync(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
