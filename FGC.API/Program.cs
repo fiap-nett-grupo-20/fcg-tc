@@ -1,4 +1,6 @@
 using FCG.Application.Middleware;
+using FCG.Application.Services;
+using FCG.Application.Services.Interfaces;
 using FCG.Domain.Entities;
 using FCG.Domain.Interfaces;
 using FCG.Infra.Data.Context;
@@ -31,6 +33,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<JwtService>();
 
 builder.Services.AddScoped<IGameRepository, GameRepository>();
+builder.Services.AddScoped<IGameService, GameService>();
 
 /*builder.Services.AddIdentity<User, IdentityRole>(options =>
 {

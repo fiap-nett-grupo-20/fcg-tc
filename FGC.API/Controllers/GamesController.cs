@@ -1,4 +1,5 @@
 ﻿using FCG.Application.DTO;
+using FCG.Application.Services.Interfaces;
 using FCG.Domain.Entities;
 using FCG.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -9,72 +10,39 @@ namespace FCG.API.Controllers
     [ApiController]
     public class GamesController : ControllerBase
     {
+        private readonly IGameService _gameService;
+
         private readonly IGameRepository _gameRepository;
 
-        public GamesController(IGameRepository gameRepository)
+        public GamesController(IGameRepository gameRepository, IGameService gameService)
         {
             _gameRepository = gameRepository;
+            _gameService = gameService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAsync()
+        public async Task<ActionResult<IEnumerable<GameDTO>>> GetGames()
         {
-            try
-            {
-                var games = await _gameRepository.GetAllAsync();
+            var games = await _gameService.GetAllGamesAsync();
 
-                var gamesDto = games.Select(game => new GameDTO
-                {
-                    Id = (int)game.Id, 
-                    Title = game.Title ?? "",
-                    Price = game.Price,
-                    Description = game.Description ?? "",
-                    Genre = game.Genre ?? ""
-                }).ToList();
-
-                return Ok(gamesDto);
-            }
-            catch (FormatException  ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(games);
         }
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult<GameDTO>> GetGame(int id)
         {
-            try
-            {
-                var game = await _gameRepository.GetByIdAsync(id);
-                return Ok(game);
-            }
-            catch (FormatException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+           var game = await _gameService.GetGameByIdAsync(id);
+
+           return Ok(game);
         }
 
         [HttpPost]
         public async Task<ActionResult<GameDTO>> CreateGame(CreateGameModel model)
         {
-            /*var user = await _userService.CreateUserAsync(model);
-            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);*/
-            try
-            {
-                var game = new Game()
-                {
-                    Title = model.Title,
-                    Price = model.Price,
-                    Description = model.Description,
-                    Genre = model.Genre,
-                };
-                await _gameRepository.AddAsync(game);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var user = await _gameService.CreateGameAsync(model);
+
+            return Ok(user);
+            
         }
 
        
@@ -101,17 +69,13 @@ namespace FCG.API.Controllers
         
         
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute] int id)
+        public async Task<IActionResult> DeleteGame([FromRoute] int id)
         {
-            try
-            {
-                await _gameRepository.DeleteAsync(id);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            
+            await _gameService.DeleteGameAsync(id);
+
+            return Ok();
+           
         }
     }
 }
