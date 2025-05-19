@@ -1,8 +1,13 @@
 using FCG.Application.Middleware;
+using FCG.Application.Services;
+using FCG.Application.Services.Interfaces;
 using FCG.Domain.Entities;
-
+using FCG.Domain.Interfaces;
+using FCG.Infra.Data.Context;
+using FCG.Infra.Data.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,11 +17,23 @@ var builder = WebApplication.CreateBuilder(args);
     ?? throw new InvalidOperationException("Connection string 'DbIdentityLoginContext' não encontrada.")));
 */
 
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .Build();
+
+builder.Services.AddDbContext<FCGDbContext>(options =>
+{
+    options.UseSqlServer(configuration.GetConnectionString("DbFGCAPIContext"));
+}, ServiceLifetime.Scoped);
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<JwtService>();
+
+builder.Services.AddScoped<IGameRepository, GameRepository>();
+builder.Services.AddScoped<IGameService, GameService>();
 
 /*builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
@@ -49,7 +66,7 @@ else
 app.UseHttpsRedirection();
 
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
 app.UseMiddleware<ExceptionMiddleware>();
 

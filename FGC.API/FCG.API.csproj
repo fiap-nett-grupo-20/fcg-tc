@@ -8,7 +8,7 @@
 
  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.15" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.5" />
 	 
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.4">
       <PrivateAssets>all</PrivateAssets>
@@ -30,6 +30,7 @@
 
  <ItemGroup>
    <ProjectReference Include="..\FCG.Application\FCG.Application.csproj" />
+   <ProjectReference Include="..\FCG.Tests.Infra\FCG.Tests.Infra.csproj" />
  </ItemGroup>
 
 </Project>
