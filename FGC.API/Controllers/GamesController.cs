@@ -12,11 +12,8 @@ namespace FCG.API.Controllers
     {
         private readonly IGameService _gameService;
 
-        private readonly IGameRepository _gameRepository;
-
-        public GamesController(IGameRepository gameRepository, IGameService gameService)
+        public GamesController(IGameService gameService)
         {
-            _gameRepository = gameRepository;
             _gameService = gameService;
         }
 
@@ -45,26 +42,12 @@ namespace FCG.API.Controllers
             
         }
 
-       
-        [HttpPut]
-        public async Task<IActionResult> PutAsync([FromBody] UpdateGameModel model)
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateGame(int id, UpdateGameModel model)
         {
-            try
-            {
-                var game = await _gameRepository.GetByIdAsync(model.Id);
-
-                game.Title = model.Title;
-                game.Description = model.Description;
-                game.Genre = model.Genre;
-
-                await _gameRepository.UpdateAsync(game);
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _gameService.UpdateGameAsync(id,  model);
+            return Ok();
         }
         
         

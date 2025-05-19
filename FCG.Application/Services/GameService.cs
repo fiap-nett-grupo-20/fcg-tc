@@ -79,11 +79,27 @@ namespace FCG.Application.Services
             };
         }
 
-        
-
         public async Task UpdateGameAsync(int id, UpdateGameModel model)
         {
-            throw new NotImplementedException();
+            var game = await _gameRepository.GetByIdAsync (id);
+
+            if (game == null)
+                throw new BusinessErrorDetailsException("Jogo não encontrado");
+
+            if(!string.IsNullOrWhiteSpace(model.Title))
+                game.Title = model.Title;
+
+            if(!string.IsNullOrWhiteSpace(model.Description))
+                game.Description = model.Description;
+
+            if(!string.IsNullOrEmpty(model.Genre))
+                game.Genre = model.Genre;
+
+            if(!decimal.IsNegative((decimal)model.Price))
+                game.Price = (decimal)model.Price;
+
+            await _gameRepository.UpdateAsync(game);
+
         }
 
         public async Task DeleteGameAsync(int id)
