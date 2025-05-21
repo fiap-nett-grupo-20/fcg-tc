@@ -1,16 +1,16 @@
 using FCG.Application.Middleware;
 using FCG.Domain.Entities;
-
+using FCG.Infra.Data.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-/*builder.Services.AddDbContext<DbIdentityLoginContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DbIdentityLoginContext")
-    ?? throw new InvalidOperationException("Connection string 'DbIdentityLoginContext' não encontrada.")));
-*/
+builder.Services.AddDbContext<FCGContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("FCG")
+?? throw new InvalidOperationException("Connection string 'FCG' não encontrada.")));
+
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

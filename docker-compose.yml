@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-lts
+    environment:
+      SA_PASSWORD: "Seu@Password123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+
+  fcg.api:
+    build:
+      context: .
+      dockerfile: FCG.Api/Dockerfile
+    ports:
+      - "5000:80"
+    depends_on:
+      - sqlserver
+    environment:
+      - ConnectionStrings__FCG=Server=sqlserver;Database=MinhaBase;User=sa;Password=Seu@Password123;
+
+volumes:
+  sqlvolume:
