@@ -2,7 +2,7 @@ name: CI
 
 on:
   pull_request:
-    branches: [ "main", "master", "develop" ] # Defina os branches que devem ser protegidos
+    branches: [ "main", "master", "develop" ]
 
 jobs:
   build-and-test:
