@@ -3,6 +3,7 @@ using FCG.Application.Services.Interfaces;
 using FCG.Domain.Entities;
 using FCG.Domain.Exceptions;
 using FCG.Domain.Interfaces;
+using FCG.Domain.ValueObjects;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -60,7 +61,7 @@ namespace FCG.Application.Services
             var game = new Game
             (
                 model.Title,
-                model.Price,
+                (Price)model.Price,
                 model.Description,
                 model.Genre
             );
@@ -84,7 +85,7 @@ namespace FCG.Application.Services
             var updatedGame = new Game(
                 id,
                 model.Title,
-                (decimal)model.Price,
+                (Price)model.Price,
                 model.Description,
                 model.Genre
             );

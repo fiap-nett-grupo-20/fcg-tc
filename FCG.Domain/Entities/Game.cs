@@ -7,11 +7,11 @@ public class Game
 {
     public int? Id { get;  set; }
     public string? Title { get;  set; }
-    public decimal Price { get;  set; }
+    public Price Price { get;  set; }
     public string? Description { get;  set; }
     public string? Genre { get;  set; }
 
-    public Game(string title, decimal price, string description, string genre)
+    public Game(string title, Price price, string description, string genre)
     {
         ValidateTitle(title);
         ValidateDescription(description);
@@ -23,7 +23,7 @@ public class Game
         Genre = genre;
     }
 
-    public Game(int id, string title, decimal price, string description, string genre)
+    public Game(int id, string title, Price price, string description, string genre)
     {
         ValidateTitle(title);
         ValidateDescription(description);
