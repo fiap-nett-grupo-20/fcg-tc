@@ -2,7 +2,7 @@ name: CI
 
 on:
   pull_request:
-    branches: [ "main", "master", "develop" ]
+    branches: [ "main" ]
 
 jobs:
   build-and-test:
@@ -15,7 +15,7 @@ jobs:
       - name: Instalar .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x' # Ou a versão que você usa
+          dotnet-version: '8.0.x'
 
       - name: Restaurar dependências
         run: dotnet restore
@@ -23,5 +23,8 @@ jobs:
       - name: Build do projeto
         run: dotnet build --configuration Release --no-restore
 
-      - name: Rodar testes
-        run: dotnet test --no-build --verbosity normal
+      - name: Testes Domain
+        run: dotnet test ./FCG.Tests.Domain/FCG.Tests.Domain.csproj --configuration Release --no-build --verbosity normal
+
+      - name: Testes Infra
+        run: dotnet test ./FCG.Tests.Infra/FCG.Tests.Infra.csproj --configuration Release --no-build --verbosity normal
