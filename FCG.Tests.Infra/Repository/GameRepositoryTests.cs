@@ -2,6 +2,7 @@
 using FCG.Domain.Entities;
 using FCG.Infra.Data.Context;
 using FCG.Infra.Data.Repository;
+using FCG.Domain.ValueObjects;
 
 namespace FCG.Infra.Tests.Repositories;
 
@@ -23,7 +24,9 @@ public class GameRepositoryTests
     public async Task AddAsync_ValidGame_ShouldAddGameToDatabase()
     {
         // Arrange
-        var game = new Game("Game Title", 199.99M, "", "");
+        Price price = new Price(199.99M);
+
+        var game = new Game("Game Title", price, "", "");
 
         // Act
         await _repository.AddAsync(game);
