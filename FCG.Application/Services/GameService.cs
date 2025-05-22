@@ -67,8 +67,6 @@ namespace FCG.Application.Services
 
             await _gameRepository.AddAsync(game);
 
-            //fazer verificacoes aqui
-
             return new GameDTO
             {
                 Id = (int)game.Id,
@@ -81,29 +79,17 @@ namespace FCG.Application.Services
 
         public async Task UpdateGameAsync(int id, UpdateGameModel model)
         {
-            var game = await _gameRepository.GetByIdAsync (id);
+            var game = await _gameRepository.GetByIdAsync(id);
 
-            
-            if (!string.IsNullOrWhiteSpace(model.Title))
-            {
-                game.Title = model.Title;
-            }
-            else
-            {
-                throw new BusinessErrorDetailsException("O titulo do jogo nao pode ser vazio");
-            }
-
-            if (!string.IsNullOrWhiteSpace(model.Description))
-                game.Description = model.Description;
-
-            if(!string.IsNullOrEmpty(model.Genre))
-                game.Genre = model.Genre;
-
-            if(!decimal.IsNegative((decimal)model.Price))
-                game.Price = (decimal)model.Price;
+            var updatedGame = new Game(
+                id,
+                model.Title,
+                (decimal)model.Price,
+                model.Description,
+                model.Genre
+            );
 
             await _gameRepository.UpdateAsync(game);
-
         }
 
         public async Task DeleteGameAsync(int id)

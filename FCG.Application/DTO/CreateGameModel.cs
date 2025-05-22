@@ -9,15 +9,12 @@ namespace FCG.Application.DTO
 {
     public class CreateGameModel
     {
-        [Required(ErrorMessage = "O nome do jogo é obrigatório.")]
         public required string Title { get; set; }
 
-        [Required(ErrorMessage = "Insira um preço para o jogo")]
         public required decimal Price { get; set; }
 
         public required string Description { get; set; }
 
-        [Required(ErrorMessage = "Insira um genero")]
         public required string Genre { get; set; }
     }
 }
