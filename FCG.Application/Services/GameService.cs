@@ -89,7 +89,7 @@ namespace FCG.Application.Services
                 model.Genre
             );
 
-            await _gameRepository.UpdateAsync(game);
+            await _gameRepository.UpdateAsync(updatedGame);
         }
 
         public async Task DeleteGameAsync(int id)
@@ -101,10 +101,6 @@ namespace FCG.Application.Services
             
             await _gameRepository.DeleteAsync(id);
 
-            //fazer verificação se deu bom 
-            /*if (!result.Succeeded)
-                throw new BusinessErrorDetailsException("Erro ao excluir usuário: " + string.Join(", ", result.Errors.Select(e => e.Description)));
-            */
         }
     }
 }
