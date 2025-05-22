@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCG.Infra.Data", "FCG.Infra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCG.Application", "FCG.Application\FCG.Application.csproj", "{75364450-B704-44AB-ADA1-66922E60AAE9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCG.Tests.Infra", "FCG.Tests.Infra\FCG.Tests.Infra.csproj", "{EA7FE564-B3F5-7BA9-7902-913858762C93}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{75364450-B704-44AB-ADA1-66922E60AAE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75364450-B704-44AB-ADA1-66922E60AAE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75364450-B704-44AB-ADA1-66922E60AAE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA7FE564-B3F5-7BA9-7902-913858762C93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA7FE564-B3F5-7BA9-7902-913858762C93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA7FE564-B3F5-7BA9-7902-913858762C93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA7FE564-B3F5-7BA9-7902-913858762C93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,6 +71,7 @@ Global
 		{64701659-DEE2-F5A4-B426-007BD2C5E39A} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{38D5997E-102B-4568-A4C3-B3C5C10017D0} = {86794A9C-6091-4849-91C5-423EC3FC6860}
 		{75364450-B704-44AB-ADA1-66922E60AAE9} = {7C06296C-6ABA-4622-B1A0-03FFB864AE54}
+		{EA7FE564-B3F5-7BA9-7902-913858762C93} = {83B8CB23-372C-4C62-A99E-D3FAC0ED9812}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A3A37F26-A667-483D-ABCD-ED95122A1F11}
