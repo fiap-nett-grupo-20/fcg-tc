@@ -1,16 +1,22 @@
 using FCG.Application.Middleware;
-using FCG.Domain.Entities;
+using FCG.Application.Services;
+using FCG.Application.Services.Interfaces;
+using FCG.Domain.Interfaces;
 using FCG.Infra.Data.Context;
-using Microsoft.AspNetCore.Identity;
+using FCG.Infra.Data.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .Build();
 
-builder.Services.AddDbContext<FCGContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("FCG")
-?? throw new InvalidOperationException("Connection string 'FCG' não encontrada.")));
-
+builder.Services.AddDbContext<FCGDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("FCG"),
+    b => b.MigrationsAssembly(typeof(FCGDbContext).Assembly));
+}, ServiceLifetime.Scoped);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -18,18 +24,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<JwtService>();
 
-/*builder.Services.AddIdentity<User, IdentityRole>(options =>
-{
-    options.Password.RequireDigit = true;
-    options.Password.RequireLowercase = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequireNonAlphanumeric = true;
-    options.Password.RequiredLength = 8;
-    options.User.RequireUniqueEmail = true;
-
-})
-.AddEntityFrameworkStores<DbIdentityLoginContext>()
-.AddDefaultTokenProviders();*/
+builder.Services.AddScoped<IGameRepository, GameRepository>();
+builder.Services.AddScoped<IGameService, GameService>();
 
 var app = builder.Build();
 
@@ -49,7 +45,7 @@ else
 app.UseHttpsRedirection();
 
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
 app.UseMiddleware<ExceptionMiddleware>();
 

@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FCG.Infra.Data.Context
 {
-    public class FCGContext : DbContext
+    public class FCGDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Game> Games { get; set; }
 
-        public FCGContext(DbContextOptions<FCGContext> options) : base(options)
+        public FCGDbContext(DbContextOptions<FCGDbContext> options) : base(options)
         {
         }
 
