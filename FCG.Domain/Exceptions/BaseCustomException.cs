@@ -9,5 +9,11 @@
         {
             StatusCode = statusCode;
         }
+
+        protected BaseCustomException(int statusCode, string message)
+            : base(message)
+        {
+            StatusCode = statusCode;
+        }
     }
 }

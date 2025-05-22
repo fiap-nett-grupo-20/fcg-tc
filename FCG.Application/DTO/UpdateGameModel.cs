@@ -9,7 +9,6 @@ namespace FCG.Application.DTO
 {
     public class UpdateGameModel
     {
-        public int Id { get; set; }
         public string? Title { get; set; }
 
         public decimal? Price { get; set; }
