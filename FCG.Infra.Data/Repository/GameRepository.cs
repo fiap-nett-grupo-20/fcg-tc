@@ -1,4 +1,5 @@
 ﻿using FCG.Domain.Entities;
+using FCG.Domain.Exceptions;
 using FCG.Domain.Interfaces;
 using FCG.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
@@ -33,7 +34,7 @@ public class GameRepository(FCGDbContext context) : IGameRepository
     {
         return await _context.Games
             .FindAsync(id)
-            ?? throw new Exception("Jogo não encontrado.");
+            ?? throw new NotFoundException($"Jogo {id} não encontrado.");
     }
 
     public async Task UpdateAsync(Game game)

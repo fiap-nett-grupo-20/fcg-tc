@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using FCG.Domain.ValueObjects;
+
 namespace FCG.Application.DTO
 {
     public class CreateUserModel
@@ -16,7 +18,7 @@ namespace FCG.Application.DTO
 
         [Required(ErrorMessage = "A senha é obrigatória.")]
         [MinLength(8, ErrorMessage = "A senha deve ter no mínimo 8 caracteres.")]
-        public required string Password { get; set; }
+        public required Password Password { get; set; }
 
         public List<string>? Roles { get; set; }
     }

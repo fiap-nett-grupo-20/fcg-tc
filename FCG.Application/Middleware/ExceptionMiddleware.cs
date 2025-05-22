@@ -29,6 +29,7 @@ namespace FCG.Application.Middleware
         {
             context.Response.ContentType = "application/json";
 
+            
             if (exception is BaseCustomException customException)
             {
                 context.Response.StatusCode = customException.StatusCode;
@@ -36,6 +37,17 @@ namespace FCG.Application.Middleware
                 {
                     StatusCode = customException.StatusCode,
                     Message = customException.Message
+                });
+                return context.Response.WriteAsync(jsonResponse);
+            }
+
+            if (exception is ArgumentException exceptionArgument)
+            {
+                //context.Response.StatusCode = exceptionArgument;
+                var jsonResponse = JsonConvert.SerializeObject(new
+                {
+                    //StatusCode = customException.StatusCode,
+                    Message = exceptionArgument.Message
                 });
                 return context.Response.WriteAsync(jsonResponse);
             }

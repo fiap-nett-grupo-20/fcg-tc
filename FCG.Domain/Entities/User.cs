@@ -8,19 +8,19 @@ public class User
     public string? Id { get; private set; }
     public string? Name { get; set; }
     public Email? Email { get; set; }
-    public Password? Password { get; set; }
+    public Password Password { get; set; }
     public UserRole Role { get; set; }
-    public User(string name, string email, string password, UserRole role = UserRole.User)
+    public User(string name, string email, Password password, UserRole role = UserRole.User)
     {
         ValidateName(name);
         Id = Guid.NewGuid().ToString();
         Name = name;
         Email = new Email(email);
-        Password = new Password(password);
+        Password = password;
         Role = role;
     }
 
-    protected User() { } // For EF Core
+    protected User() { }
 
     private static void ValidateName(string name)
     {

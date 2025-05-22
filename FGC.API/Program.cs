@@ -50,6 +50,8 @@ builder.Services.AddScoped<IGameService, GameService>();
 
 var app = builder.Build();
 
+
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -63,12 +65,13 @@ else
     app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
+app.UseMiddleware<ExceptionMiddleware>();
 
 
 //app.UseAuthorization();
 
-app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
 

@@ -81,15 +81,19 @@ namespace FCG.Application.Services
 
         public async Task UpdateGameAsync(int id, UpdateGameModel model)
         {
-            var game = await _gameRepository.GetByIdAsync (id);
+            var game = await _gameRepository.GetByIdAsync(id);
 
-            if (game == null)
-                throw new BusinessErrorDetailsException("Jogo não encontrado");
-
-            if(!string.IsNullOrWhiteSpace(model.Title))
+            
+            if (!string.IsNullOrWhiteSpace(model.Title))
+            {
                 game.Title = model.Title;
+            }
+            else
+            {
+                throw new BusinessErrorDetailsException("O titulo do jogo nao pode ser vazio");
+            }
 
-            if(!string.IsNullOrWhiteSpace(model.Description))
+            if (!string.IsNullOrWhiteSpace(model.Description))
                 game.Description = model.Description;
 
             if(!string.IsNullOrEmpty(model.Genre))

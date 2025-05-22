@@ -15,7 +15,6 @@ namespace FCG.Application.DTO
         [Required(ErrorMessage = "Insira um preço para o jogo")]
         public required decimal Price { get; set; }
 
-        [Required(ErrorMessage = "Insira uma descrição")]
         public required string Description { get; set; }
 
         [Required(ErrorMessage = "Insira um genero")]
