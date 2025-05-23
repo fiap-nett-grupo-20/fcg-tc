@@ -12,8 +12,9 @@ services:
           context: .
           dockerfile: ./FGC.API/Dockerfile
         ports:
-          - "5001:80"
+          - "5001:8080"
         depends_on:
           - sqlserver
         environment:
-          - ConnectionStrings__FCG=Server=sqlserver;Database=FCG;User=sa;Password=FCG@admin;
+          ASPNETCORE_ENVIRONMENT: Development
+          ConnectionStrings__FCG: "Server=sqlserver;Database=FCG;User=sa;Password=FCG@admin;"
