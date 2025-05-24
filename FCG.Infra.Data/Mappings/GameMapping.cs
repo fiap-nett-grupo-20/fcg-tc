@@ -25,7 +25,7 @@ namespace FCG.Infra.Data.Mappings
             builder.Property(j => j.Genre)
                    .HasMaxLength(50);
 
-            builder.Property(j => j.Price);
+            builder.Property(j => j.Price).HasPrecision(3);
 
             //builder.Property(j => j.DataLancamento);
 
