@@ -13,11 +13,12 @@ namespace FCG.Infra.Data.Migrations
             migrationBuilder.AlterColumn<decimal>(
                 name: "Price",
                 table: "games",
-                type: "decimal(3,2)",
-                precision: 3,
+                type: "decimal(6,2)",
+                precision: 6,
                 nullable: false,
                 oldClrType: typeof(decimal),
-                oldType: "decimal(18,2)");
+                oldType: "decimal(3,2)",
+                oldPrecision: 3);
         }
 
         /// <inheritdoc />
@@ -26,11 +27,12 @@ namespace FCG.Infra.Data.Migrations
             migrationBuilder.AlterColumn<decimal>(
                 name: "Price",
                 table: "games",
-                type: "decimal(18,2)",
+                type: "decimal(3,2)",
+                precision: 3,
                 nullable: false,
                 oldClrType: typeof(decimal),
-                oldType: "decimal(3,2)",
-                oldPrecision: 3);
+                oldType: "decimal(6,2)",
+                oldPrecision: 6);
         }
     }
 }

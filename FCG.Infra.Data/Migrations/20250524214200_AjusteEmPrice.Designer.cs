@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FCG.Infra.Data.Migrations
 {
     [DbContext(typeof(FCGDbContext))]
-    [Migration("20250524140432_AjusteEmPrice")]
+    [Migration("20250524214200_AjusteEmPrice")]
     partial class AjusteEmPrice
     {
         /// <inheritdoc />
@@ -41,8 +41,8 @@ namespace FCG.Infra.Data.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("Price")
-                        .HasPrecision(3)
-                        .HasColumnType("decimal(3,2)");
+                        .HasPrecision(6)
+                        .HasColumnType("decimal(6,2)");
 
                     b.Property<string>("Title")
                         .IsRequired()

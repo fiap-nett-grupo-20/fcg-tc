@@ -4,6 +4,7 @@ using FCG.Application.Services.Interfaces;
 using FCG.Domain.Interfaces;
 using FCG.Infra.Data.Context;
 using FCG.Infra.Data.Repository;
+using FCG.Infra.Data.Seedings;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,15 +33,16 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseDeveloperExceptionPage();
-//}
-//else
-//{
-//    app.UseExceptionHandler("/Error");
-//    app.UseHsts();
-//}
+if (app.Environment.IsDevelopment())
+{
+    await using var scope = app.Services.CreateAsyncScope();
+    await using var dbContext = scope.ServiceProvider.GetRequiredService<FCGDbContext>();
+    bool databaseWasCreated = await dbContext.Database.EnsureCreatedAsync();
+    Console.WriteLine(databaseWasCreated ? "Database created." : "Database already exists.");
+
+
+    await GameSeeding.SeedAsync(dbContext);
+}
 
 app.UseDeveloperExceptionPage();
 app.UseExceptionHandler("/Error");

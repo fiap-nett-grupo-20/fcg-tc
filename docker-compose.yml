@@ -4,7 +4,7 @@ services:
     environment:
       SA_PASSWORD: "FCG@admin"
       ACCEPT_EULA: "Y"
-      MSSQL_PID: "Express"
+      MSSQL_PID: "Developer"
     ports:
       - "1433:1433"
   fcg-api:
@@ -17,4 +17,4 @@ services:
       - sqlserver
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__FCG: "Server=sqlserver;Database=FCG;User=sa;Password=FCG@admin;Initial Catalog=FCG;Integrated Security=True;Encrypt=False;Trust Server Certificate=True"
+      ConnectionStrings__FCG: "Server=sqlserver;Initial Catalog=FCG;User Id=sa;Password=FCG@admin;TrustServerCertificate=true"
