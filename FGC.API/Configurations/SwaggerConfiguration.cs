@@ -8,18 +8,6 @@ namespace FCG.API.Configurations
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "FCG API",
-                    Version = "v1",
-                    Description = "API oficial do projeto FCG com ResponseWrapper, ExceptionHandler e autenticação JWT.",
-                    Contact = new OpenApiContact
-                    {
-                        Name = "Grupo 20 FIAP",
-                        Email = "seuemail@seuprojeto.com",
-                        Url = new Uri("https://seuprojeto.com")
-                    }
-                });
                 c.OperationFilter<SwaggerResponseWrapperOperationFilter>();
                 c.OperationFilter<SwaggerResponseGenericExampleFilter>();
 
