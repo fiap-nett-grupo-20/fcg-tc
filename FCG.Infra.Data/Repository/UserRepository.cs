@@ -5,9 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FCG.Infra.Data.Repository;
 
-public class UserRepository(FCGDbContext context) : IUserRepository
+public class UserRepository : IUserRepository
 {
-    private readonly FCGDbContext _context = context;
+    private readonly DbFCGAPIContext _context;
+
+    public UserRepository(DbFCGAPIContext context)
+    {
+        _context = context;
+    }
 
     public async Task AddAsync(User user)
     {
@@ -18,28 +23,29 @@ public class UserRepository(FCGDbContext context) : IUserRepository
     public async Task DeleteAsync(string id)
     {
         var user = await GetByIdAsync(id);
-        _context.Users.Remove(user);
-        await _context.SaveChangesAsync();
+        if (user is not null)
+        {
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+        }
     }
 
     public async Task<bool> ExistsByEmailAsync(string email)
     {
         return await _context.Users
-            .AnyAsync(u => u.Email!.Address == email);
+            .AnyAsync(u => u.Email == email);
     }
 
-    public async Task<User> GetByEmailAsync(string email)
+    public async Task<User?> GetByEmailAsync(string email)
     {
         return await _context.Users
-            .FirstOrDefaultAsync(u => u.Email!.Address == email)
-            ?? throw new Exception("Usuário não encontrado.");
+            .FirstOrDefaultAsync(u => u.Email == email);
     }
 
-    public async Task<User> GetByIdAsync(string id)
+    public async Task<User?> GetByIdAsync(string id)
     {
         return await _context.Users
-            .FindAsync(id)
-            ?? throw new Exception("Usuário não encontrado.");
+            .FirstOrDefaultAsync(u => u.Id == id);
     }
 
     public async Task UpdateAsync(User user)

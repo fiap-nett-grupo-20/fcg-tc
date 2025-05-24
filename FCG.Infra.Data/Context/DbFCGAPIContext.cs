@@ -1,39 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using FCG.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace FCG.Infra.Data.Context
 {
-    public class FCGDbContext : DbContext
+    public class DbFCGAPIContext : IdentityDbContext<User>
     {
-        public DbSet<User> Users { get; set; }
+        public DbFCGAPIContext(DbContextOptions<DbFCGAPIContext> options) : base(options) { }
+
         public DbSet<Game> Games { get; set; }
-        public FCGDbContext(DbContextOptions<FCGDbContext> options) : base(options) {}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.ToTable("Users");
-                entity.HasKey(u => u.Id);
-                entity.Property(u => u.Name)
-                    .IsRequired()
-                    .HasMaxLength(100);
-                entity.OwnsOne(u => u.Email, e =>
-                {
-                    e.Property(email => email.Address)
-                    .IsRequired()
-                    .HasColumnName("Email")
-                    .HasMaxLength(100);
-                });
-                entity.OwnsOne(u => u.Password, p =>
-                {
-                    p.Property(pwd => pwd.Hash)
-                    .IsRequired()
-                    .HasColumnName("PassworHash")
-                    .HasMaxLength(500);
-                });
-            });
+            base.OnModelCreating(modelBuilder);
 
+            // Configuração de Game
             modelBuilder.Entity<Game>(entity =>
             {
                 entity.ToTable("Games");
@@ -51,7 +32,15 @@ namespace FCG.Infra.Data.Context
                     .IsRequired()
                     .HasMaxLength(50);
             });
-        }
 
+            // 🔥 Configuração adicional para User
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("AspNetUsers");
+                entity.Property(u => u.Name)
+                      .IsRequired()
+                      .HasMaxLength(100);
+            });
+        }
     }
 }

@@ -8,16 +8,16 @@ namespace FCG.Infra.Tests.Repositories;
 
 public class UserRepositoryTests
 {
-    private readonly FCGDbContext _context;
+    private readonly DbFCGAPIContext _context;
     private readonly UserRepository _repository;
 
     public UserRepositoryTests()
     {
-        var options = new DbContextOptionsBuilder<FCGDbContext>()
+        var options = new DbContextOptionsBuilder<DbFCGAPIContext>()
             .UseInMemoryDatabase(databaseName: "TestDatabase")
             .Options;
 
-        _context = new FCGDbContext(options);
+        _context = new DbFCGAPIContext(options);
         _repository = new UserRepository(_context);
     }
 
@@ -25,7 +25,7 @@ public class UserRepositoryTests
     public async Task AddAsync_ValidUser_ShouldAddUserToDatabase()
     {
         //  Arrange
-        var user = new User("José Silva", "rm000000@fiap.com.br", "Senha@123");
+        var user = new User("José Silva", "rm000000@fiap.com.br");
 
         // Act
         await _repository.AddAsync(user);
@@ -33,14 +33,14 @@ public class UserRepositoryTests
         // Assert
         var saveUser = await _context.Users.FirstOrDefaultAsync();
         Assert.NotNull(saveUser);
-        Assert.Equal("rm000000@fiap.com.br", saveUser.Email!.Address);
+        Assert.Equal("rm000000@fiap.com.br", saveUser.Email!);
     }
 
     [Fact]
     public async Task DeleteAsync_ExistUser_ShouldDeleteUserFromDatabase()
     {
         // Arrange
-        var user = new User("José Silva", "rm000000@fiap.com.br", "Senha@123");
+        var user = new User("José Silva", "rm000000@fiap.com.br");
 
         // Act
         await _repository.AddAsync(user);
@@ -54,11 +54,11 @@ public class UserRepositoryTests
     public async Task UpdateAsync_ExistUser_ShouldUpdateUser()
     {
         // Arrange
-        var user = new User("José Silva", "rm000000@fiap.com.br", "Senha@123");
+        var user = new User("José Silva", "rm000000@fiap.com.br");
 
         // Act
         await _repository.AddAsync(user);
-        user.Email = new Email("professor@pm3.com.br");
+        user.Email = new Email("professor@pm3.com.br").ToString();
         await _repository.UpdateAsync(user);
 
         // Assert

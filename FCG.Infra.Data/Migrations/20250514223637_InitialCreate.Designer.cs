@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FCG.Infra.Data.Migrations
 {
-    [DbContext(typeof(FCGDbContext))]
+    [DbContext(typeof(DbFCGAPIContext))]
     [Migration("20250514223637_InitialCreate")]
     partial class InitialCreate
     {

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FCG.Infra.Data.Migrations
 {
-    [DbContext(typeof(FCGDbContext))]
-    partial class FCGDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(DbFCGAPIContext))]
+    partial class DbFCGAPIContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

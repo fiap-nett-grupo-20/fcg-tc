@@ -1,64 +1,60 @@
 ﻿using FCG.Domain.Exceptions;
+
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+
 using Newtonsoft.Json;
 
-namespace FCG.Application.Middleware
+using System.Net;
+
+namespace FCG.Application.Middleware;
+
+public class ExceptionMiddleware
 {
-    public class ExceptionMiddleware
+    private readonly RequestDelegate _next;
+    private readonly ILogger<ExceptionMiddleware> _logger;
+
+    public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
     {
-        private readonly RequestDelegate _next;
+        _next = next;
+        _logger = logger;
+    }
 
-        public ExceptionMiddleware(RequestDelegate next)
+    public async Task InvokeAsync(HttpContext context)
+    {
+        try
         {
-            _next = next;
+            await _next(context);
         }
-
-        public async Task InvokeAsync(HttpContext context)
+        catch (Exception ex)
         {
-            try
-            {
-                await _next(context);
-            }
-            catch (Exception ex)
-            {
-                await HandleExceptionAsync(context, ex);
-            }
+            _logger.LogError(ex, "Erro não tratado capturado pelo middleware.");
+            await HandleExceptionAsync(context, ex);
         }
+    }
 
-        private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+    {
+        context.Response.ContentType = "application/json";
+
+        var statusCode = exception switch
         {
-            context.Response.ContentType = "application/json";
+            BaseCustomException custom => custom.StatusCode,
+            ArgumentException => (int)HttpStatusCode.BadRequest,
+            KeyNotFoundException => (int)HttpStatusCode.NotFound,
+            _ => (int)HttpStatusCode.InternalServerError
+        };
 
-            
-            if (exception is BaseCustomException customException)
-            {
-                context.Response.StatusCode = customException.StatusCode;
-                var jsonResponse = JsonConvert.SerializeObject(new
-                {
-                    StatusCode = customException.StatusCode,
-                    Message = customException.Message
-                });
-                return context.Response.WriteAsync(jsonResponse);
-            }
+        var response = new
+        {
+            StatusCode = statusCode,
+            Message = exception.Message
+        };
 
-            if (exception is ArgumentException exceptionArgument)
-            {
-                //context.Response.StatusCode = exceptionArgument;
-                var jsonResponse = JsonConvert.SerializeObject(new
-                {
-                    //StatusCode = customException.StatusCode,
-                    Message = exceptionArgument.Message
-                });
-                return context.Response.WriteAsync(jsonResponse);
-            }
+        context.Response.StatusCode = statusCode;
 
-            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            var defaultResponse = JsonConvert.SerializeObject(new
-            {
-                StatusCode = context.Response.StatusCode,
-                Message = "Erro inesperado, contate o administrador do sistema."
-            });
-            return context.Response.WriteAsync(defaultResponse);
-        }
+        var jsonResponse = JsonConvert.SerializeObject(response);
+
+        return context.Response.WriteAsync(jsonResponse);
     }
 }

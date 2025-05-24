@@ -7,15 +7,15 @@ namespace FCG.Infra.Tests.Repositories;
 
 public class GameRepositoryTests
 {
-    private readonly FCGDbContext _context;
+    private readonly DbFCGAPIContext _context;
     private readonly GameRepository _repository;
 
     public GameRepositoryTests()
     {
-        var options = new DbContextOptionsBuilder<FCGDbContext>()
+        var options = new DbContextOptionsBuilder<DbFCGAPIContext>()
             .UseInMemoryDatabase(databaseName: "TestDatabase")
             .Options;
-        _context = new FCGDbContext(options);
+        _context = new DbFCGAPIContext(options);
         _repository = new GameRepository(_context);
     }
 

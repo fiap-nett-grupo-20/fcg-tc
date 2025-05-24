@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FCG.Infra.Data.Repository;
 
-public class GameRepository(FCGDbContext context) : IGameRepository
+public class GameRepository(DbFCGAPIContext context) : IGameRepository
 {
-    private readonly FCGDbContext _context = context;
+    private readonly DbFCGAPIContext _context = context;
     public async Task AddAsync(Game game)
     {
         await _context.Games.AddAsync(game);
@@ -30,11 +30,10 @@ public class GameRepository(FCGDbContext context) : IGameRepository
             .ToListAsync();
     }
 
-    public async Task<Game> GetByIdAsync(int id)
+    public async Task<Game?> GetByIdAsync(int id)
     {
-        return await _context.Games
-            .FindAsync(id)
-            ?? throw new NotFoundException($"Jogo {id} não encontrado.");
+        return
+            await _context.Games.FirstOrDefaultAsync(u => u.Id == id);
     }
 
     public async Task UpdateAsync(Game game)
