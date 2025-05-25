@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCG.Domain", "FCG.Domain\FC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCG.Tests.Domain", "FCG.Tests.Domain\FCG.Tests.Domain.csproj", "{EBEA87F0-53F8-0BCF-57FA-86A5A28D0950}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCG.API", "FGC.API\FCG.API.csproj", "{64701659-DEE2-F5A4-B426-007BD2C5E39A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCG.API", "FCG.API\FCG.API.csproj", "{64701659-DEE2-F5A4-B426-007BD2C5E39A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - API", "1 - API", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -22,7 +22,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
-		FGC.API\Documentation\TC NETT - Fase 1.pdf = FGC.API\Documentation\TC NETT - Fase 1.pdf
+		FCG.API\Documentation\TC NETT - Fase 1.pdf = FCG.API\Documentation\TC NETT - Fase 1.pdf
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCG.Infra.Data", "FCG.Infra.Data\FCG.Infra.Data.csproj", "{38D5997E-102B-4568-A4C3-B3C5C10017D0}"

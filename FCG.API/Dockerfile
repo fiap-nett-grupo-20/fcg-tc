@@ -1,30 +1,29 @@
-# This stage is used when running from VS in fast mode (Default for Debug configuration)
+# Setup
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
-
-# This stage is used to build the service project
+# Build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["FGC.API/FCG.API.csproj", "FGC.API/"]
+COPY ["FCG.API/FCG.API.csproj", "FCG.API/"]
 COPY ["FCG.Application/FCG.Application.csproj", "FCG.Application/"]
 COPY ["FCG.Domain/FCG.Domain.csproj", "FCG.Domain/"]
 COPY ["FCG.Infra.Data/FCG.Infra.Data.csproj", "FCG.Infra.Data/"]
-RUN dotnet restore "./FGC.API/FCG.API.csproj"
+RUN dotnet restore "./FCG.API/FCG.API.csproj"
 COPY . .
-WORKDIR "/src/FGC.API"
+WORKDIR "/src/FCG.API"
 RUN dotnet build "./FCG.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# This stage is used to publish the service project to be copied to the final stage
+# Publish
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./FCG.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
+# Run API
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
