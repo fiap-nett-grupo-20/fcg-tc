@@ -6,6 +6,7 @@ using FCG.Domain.Entities;
 using FCG.Domain.Interfaces;
 using FCG.Infra.Data.Context;
 using FCG.Infra.Data.Repository;
+using FCG.Infra.Data.Seedings;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -79,12 +80,24 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment() || app.Environment.IsStaging() || app.Environment.IsProduction())
 {
     app.UseSwaggerConfiguration();
+    await using var scope = app.Services.CreateAsyncScope();
+    await using var dbContext = scope.ServiceProvider.GetRequiredService<FCGDbContext>();
+    bool databaseWasCreated = await dbContext.Database.EnsureCreatedAsync();
+    Console.WriteLine(databaseWasCreated ? "Database created." : "Database already exists.");
+
+
+    await GameSeeding.SeedAsync(dbContext);
 }
 else
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
+}
+app.UseDeveloperExceptionPage();
+app.UseExceptionHandler("/Error");
+app.UseHsts();
+
 
 app.UseHttpsRedirection();
 

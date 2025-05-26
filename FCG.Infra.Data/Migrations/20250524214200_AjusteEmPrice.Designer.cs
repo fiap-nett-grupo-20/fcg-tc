@@ -3,16 +3,19 @@ using FCG.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
 namespace FCG.Infra.Data.Migrations
 {
-    [DbContext(typeof(DbFCGAPIContext))]
-    partial class DbFCGAPIContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(FCGDbContext))]
+    [Migration("20250524214200_AjusteEmPrice")]
+    partial class AjusteEmPrice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
