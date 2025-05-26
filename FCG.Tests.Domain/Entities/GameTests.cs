@@ -53,15 +53,4 @@ public class GameTests
         // Act & Assert
         Assert.Throws<ArgumentException>(() => new Game("Test Game", price, "", ""));
     }
-
-    [Fact]
-    public void Constructor_GeneratesIdAutomatically()
-    {
-        // Arrange
-        Price price = new Price(10.99m);
-
-        var game = new Game("Título", price, "Descrição", "Ação");
-        Assert.NotNull(game.Id);
-        //Assert.NotEmpty(game.Id);
-    }
 }

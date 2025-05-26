@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FCG.Infra.Data.Migrations
 {
     [DbContext(typeof(FCGDbContext))]
-    [Migration("20250514223637_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250526225542_AjusteEmGameEUser")]
+    partial class AjusteEmGameEUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,17 +47,18 @@ namespace FCG.Infra.Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Games", (string)null);
+                    b.ToTable("games", (string)null);
                 });
 
             modelBuilder.Entity("FCG.Domain.Entities.User", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
@@ -65,12 +66,14 @@ namespace FCG.Infra.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("FCG.Domain.Entities.User", b =>
@@ -88,7 +91,7 @@ namespace FCG.Infra.Data.Migrations
 
                             b1.HasKey("UserId");
 
-                            b1.ToTable("Users");
+                            b1.ToTable("users");
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId");
@@ -103,11 +106,11 @@ namespace FCG.Infra.Data.Migrations
                                 .IsRequired()
                                 .HasMaxLength(500)
                                 .HasColumnType("nvarchar(500)")
-                                .HasColumnName("PassworHash");
+                                .HasColumnName("PasswordHash");
 
                             b1.HasKey("UserId");
 
-                            b1.ToTable("Users");
+                            b1.ToTable("users");
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId");
