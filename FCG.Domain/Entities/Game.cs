@@ -39,19 +39,19 @@ public class Game
     public Game() { } // For EF Core
    
 
-    private static void ValidateTitle(string title)
+    public static void ValidateTitle(string title)
     {
         if (string.IsNullOrWhiteSpace(title))
             throw new BusinessErrorDetailsException("Título não pode ser vazio ou nulo.");
     }
 
-    private static void ValidateDescription(string description)
+    public static void ValidateDescription(string description)
     {
         if (string.IsNullOrWhiteSpace(description))
             throw new BusinessErrorDetailsException("Descrição não pode ser vazio ou nulo.");
     }
 
-    private static void ValidateGenre(string genre)
+    public static void ValidateGenre(string genre)
     {
         if (string.IsNullOrWhiteSpace(genre))
             throw new BusinessErrorDetailsException("Genero não pode ser vazio ou nulo.");

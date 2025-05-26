@@ -5,6 +5,7 @@ using FCG.Domain.Exceptions;
 using FCG.Domain.Interfaces;
 using FCG.Domain.ValueObjects;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -82,15 +83,21 @@ namespace FCG.Application.Services
         {
             var game = await _gameRepository.GetByIdAsync(id);
 
-            var updatedGame = new Game(
-                id,
-                model.Title,
-                (Price)model.Price,
-                model.Description,
-                model.Genre
-            );
+            if (game == null)
+                throw new NotFoundException($"Jogo {id} não encontrado.");
 
-            await _gameRepository.UpdateAsync(updatedGame);
+            //validations
+            Game.ValidateTitle(model.Title);
+            Game.ValidateDescription(model.Description);
+            Game.ValidateGenre(model.Genre);
+
+            //updating fields
+            game.Title = model.Title;
+            game.Price = (Price)model.Price;
+            game.Description = model.Description;
+            game.Genre = model.Genre;
+
+            await _gameRepository.UpdateAsync(game);
         }
 
         public async Task DeleteGameAsync(int id)
@@ -98,10 +105,9 @@ namespace FCG.Application.Services
             var game = await _gameRepository.GetByIdAsync(id);
 
             if (game == null)
-                throw new BusinessErrorDetailsException("Jogo não encontrado.");
+                throw new NotFoundException($"Jogo {id} não encontrado.");
             
             await _gameRepository.DeleteAsync(id);
-
         }
     }
 }

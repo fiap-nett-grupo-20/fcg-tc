@@ -35,6 +35,8 @@ builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IGameService, GameService>();
 
+builder.Logging.AddJsonConsole();
+
 /*builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
     options.Password.RequireDigit = true;

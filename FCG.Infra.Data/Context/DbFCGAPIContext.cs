@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using FCG.Domain.Entities;
+using FCG.Domain.ValueObjects;
 
 namespace FCG.Infra.Data.Context
 {
@@ -43,6 +44,10 @@ namespace FCG.Infra.Data.Context
                     .HasMaxLength(200);
                 entity.Property(g => g.Price)
                     .IsRequired()
+                    .HasConversion(
+                        price => (decimal)price,    
+                        amount => (Price)amount     
+                    )
                     .HasColumnType("decimal(18,2)");
                 entity.Property(g => g.Description)
                     .IsRequired()

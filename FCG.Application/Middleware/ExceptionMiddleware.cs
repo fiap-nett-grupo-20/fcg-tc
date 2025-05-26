@@ -1,5 +1,6 @@
 ﻿using FCG.Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace FCG.Application.Middleware
@@ -7,10 +8,12 @@ namespace FCG.Application.Middleware
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly ILogger<ExceptionMiddleware> _logger;
 
-        public ExceptionMiddleware(RequestDelegate next)
+        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
         {
             _next = next;
+            _logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -21,6 +24,13 @@ namespace FCG.Application.Middleware
             }
             catch (Exception ex)
             {
+                // Log estruturado antes de escrever a resposta
+                _logger.LogError(ex,
+                    "Erro ao processar requisição {@Method} {@Path} {@TraceId}",
+                    context.Request.Method,
+                    context.Request.Path,
+                    context.TraceIdentifier);
+
                 await HandleExceptionAsync(context, ex);
             }
         }
