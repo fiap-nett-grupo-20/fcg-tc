@@ -1,0 +1,18 @@
+services:
+    sqlserver:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        environment:
+          SA_PASSWORD: "admin"
+          ACCEPT_EULA: "Y"
+        ports:
+          - "1433:1433"
+    fcg-api:
+        build:
+          context: .
+          dockerfile: ./FGC.API/Dockerfile
+        ports:
+          - "5000:80"
+        depends_on:
+          - sqlserver
+        environment:
+          - ConnectionStrings__FCG=Server=sqlserver;Database=FCG;User=sa;Password=admin;
