@@ -53,28 +53,36 @@ namespace FCG.API.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
-            var user = await _userManager.FindByEmailAsync(dto.Email);
-            if (user == null)
-                return Unauthorized("Usuário ou senha inválidos.");
-
-            var result = await _signInManager.CheckPasswordSignInAsync(user, dto.Senha, false);
-            if (!result.Succeeded)
-                return Unauthorized("Usuário ou senha inválidos.");
-
-            var roles = await _userManager.GetRolesAsync(user);
-            var token = _jwtService.GenerateToken(user, roles);
-
-            return Ok(new
+            try
             {
-                Token = token,
-                User = new
+                var user = await _userManager.FindByEmailAsync(dto.Email);
+                if (user == null)
+                    return Unauthorized("Usuário ou senha inválidos.");
+
+                var result = await _signInManager.CheckPasswordSignInAsync(user, dto.Senha, false);
+                if (!result.Succeeded)
+                    return Unauthorized("Usuário ou senha inválidos.");
+
+                var roles = await _userManager.GetRolesAsync(user);
+                var token = _jwtService.GenerateToken(user, roles);
+
+                return Ok(new
                 {
-                    user.Id,
-                    user.Email,
-                    user.Name,
-                    Roles = roles
-                }
-            });
+                    Token = token,
+                    User = new
+                    {
+                        user.Id,
+                        user.Email,
+                        user.Name,
+                        roles
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+           
         }
     }
 }

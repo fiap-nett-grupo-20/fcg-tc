@@ -7,9 +7,9 @@ namespace FCG.Infra.Data.Repository;
 
 public class UserRepository : IUserRepository
 {
-    private readonly DbFCGAPIContext _context;
+    private readonly FCGDbContext _context;
 
-    public UserRepository(DbFCGAPIContext context)
+    public UserRepository(FCGDbContext context)
     {
         _context = context;
     }

@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using Bogus;
 using FCG.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 

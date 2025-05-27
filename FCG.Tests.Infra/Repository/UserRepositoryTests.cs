@@ -8,16 +8,16 @@ namespace FCG.Infra.Tests.Repositories;
 
 public class UserRepositoryTests
 {
-    private readonly DbFCGAPIContext _context;
+    private readonly FCGDbContext _context;
     private readonly UserRepository _repository;
 
     public UserRepositoryTests()
     {
-        var options = new DbContextOptionsBuilder<DbFCGAPIContext>()
+        var options = new DbContextOptionsBuilder<FCGDbContext>()
             .UseInMemoryDatabase(databaseName: "TestDatabase")
             .Options;
 
-        _context = new DbFCGAPIContext(options);
+        _context = new FCGDbContext(options);
         _repository = new UserRepository(_context);
     }
 

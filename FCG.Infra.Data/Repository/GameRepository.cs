@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FCG.Infra.Data.Repository;
 
-public class GameRepository(DbFCGAPIContext context) : IGameRepository
+public class GameRepository(FCGDbContext context) : IGameRepository
 {
-    private readonly DbFCGAPIContext _context = context;
+    private readonly FCGDbContext _context = context;
     public async Task AddAsync(Game game)
     {
         await _context.Games.AddAsync(game);

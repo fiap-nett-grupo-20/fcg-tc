@@ -18,27 +18,33 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // ✅ Connection String
-builder.Services.AddDbContext<DbFCGAPIContext>(options =>
+builder.Services.AddDbContext<FCGDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DbFGCAPIContext"));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        sqlOptions => sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(10),
+            errorNumbersToAdd: null)
+    );
 }, ServiceLifetime.Scoped);
 
 // ✅ Identity
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
-    options.Password.RequireDigit = true;
-    options.Password.RequireLowercase = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequireNonAlphanumeric = true;
-    options.Password.RequiredLength = 8;
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 4;
     options.User.RequireUniqueEmail = true;
 })
-.AddEntityFrameworkStores<DbFCGAPIContext>()
+.AddEntityFrameworkStores<FCGDbContext>()
 .AddDefaultTokenProviders();
 
 // ✅ JWT Authentication
-var jwt = builder.Configuration.GetSection("Jwt");
-var chaveSecreta = jwt["Key"];
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+var chaveSecreta = jwtSettings["Key"];
 
 builder.Services.AddAuthentication(options =>
 {
@@ -55,8 +61,8 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = jwt["Issuer"],
-        ValidAudience = jwt["Audience"],
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(chaveSecreta!)),
         ClockSkew = TimeSpan.Zero
     };
@@ -82,10 +88,10 @@ if (app.Environment.IsDevelopment() || app.Environment.IsStaging() || app.Enviro
     app.UseSwaggerConfiguration();
     await using var scope = app.Services.CreateAsyncScope();
     await using var dbContext = scope.ServiceProvider.GetRequiredService<FCGDbContext>();
-    bool databaseWasCreated = await dbContext.Database.EnsureCreatedAsync();
-    Console.WriteLine(databaseWasCreated ? "Database created." : "Database already exists.");
 
+    await dbContext.Database.MigrateAsync();
 
+    await RoleSeeding.SeedAsync(scope.ServiceProvider);
     await GameSeeding.SeedAsync(dbContext);
 }
 else
@@ -93,7 +99,7 @@ else
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
-}
+
 app.UseDeveloperExceptionPage();
 app.UseExceptionHandler("/Error");
 app.UseHsts();

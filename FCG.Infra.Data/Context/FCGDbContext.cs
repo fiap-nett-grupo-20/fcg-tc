@@ -1,12 +1,13 @@
 ﻿using FCG.Domain.Entities;
 using FCG.Infra.Data.Mappings;
+
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace FCG.Infra.Data.Context
 {
-    public class FCGDbContext : DbContext
+    public class FCGDbContext : IdentityDbContext<User>
     {
-        public DbSet<User> Users { get; set; }
         public DbSet<Game> Games { get; set; }
 
         public FCGDbContext(DbContextOptions<FCGDbContext> options) : base(options)
@@ -15,6 +16,8 @@ namespace FCG.Infra.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.ApplyConfiguration(new UserMapping());
             modelBuilder.ApplyConfiguration(new GameMapping());
         }
