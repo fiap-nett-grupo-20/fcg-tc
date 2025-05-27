@@ -7,29 +7,24 @@ public class Game
 {
     public int? Id { get;  set; }
     public string? Title { get;  set; }
-    public Price Price { get;  set; }
+    public decimal Price { get;  set; }
     public string? Description { get;  set; }
     public string? Genre { get;  set; }
 
-    public Game(string title, Price price, string description, string genre)
+    
+    public Game(int id, string title, decimal price, string description, string genre)
+        : this(title, price, description, genre)
     {
-        ValidateTitle(title);
-        ValidateDescription(description);
-        ValidateGenre(genre);
-
-        Title = title;
-        Price = price;
-        Description = description;
-        Genre = genre;
+        Id = id;
     }
 
-    public Game(int id, string title, Price price, string description, string genre)
+    public Game(string title, decimal price, string description, string genre)
     {
         ValidateTitle(title);
+        ValidatePrice(price);
         ValidateDescription(description);
         ValidateGenre(genre);
 
-        Id = id;
         Title = title;
         Price = price;
         Description = description;
@@ -43,6 +38,12 @@ public class Game
     {
         if (string.IsNullOrWhiteSpace(title))
             throw new BusinessErrorDetailsException("Título não pode ser vazio ou nulo.");
+    }
+
+    public static void ValidatePrice(decimal price)
+    {
+        if (price < 0)
+            throw new BusinessErrorDetailsException("Preço não pode ser negativo.");
     }
 
     public static void ValidateDescription(string description)

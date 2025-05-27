@@ -62,7 +62,7 @@ namespace FCG.Application.Services
             var game = new Game
             (
                 model.Title,
-                (Price)model.Price,
+                model.Price,
                 model.Description,
                 model.Genre
             );
@@ -93,7 +93,7 @@ namespace FCG.Application.Services
 
             //updating fields
             game.Title = model.Title;
-            game.Price = (Price)model.Price;
+            game.Price = model.Price;
             game.Description = model.Description;
             game.Genre = model.Genre;
 
