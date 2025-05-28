@@ -1,38 +1,44 @@
-﻿# 🚀 Projeto .NET 8 - Guia de Utilização
-
-Bem-vindo ao repositório deste projeto desenvolvido em **.NET 8**! 🎉
+﻿# 🎮 FIAP Cloud Games (FCG)
 
 ## 📚 Sobre o Projeto
 
-A FIAP decidiu lançar uma plataforma de games voltados para a educação de tecnologia. Ela possui a ideia de como o projeto deve funcionar e decidiu quebrá-lo em quatro fases para que o lançamento da FCG seja gradual e melhorado durante todo o processo de construção.
+Fiap Cloud Games (FCG) é uma plataforma inovadora de jogos na nuvem desenvolvida dentro do ecossistema educacional da FIAP (Faculdade de Informática e Administração Paulista). O projeto tem como objetivo oferecer aos alunos uma experiência prática e integrada no desenvolvimento, deployment e consumo de jogos hospedados em ambientes cloud.
+
+[Documentação](https://www.notion.so/Fiap-Cloud-Games-FCG-1dea50ade75480e78653c05e2cca2193?pvs=4)
 
 ## ⚙️ Tecnologias Utilizadas
 
-- [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
-- C#
+- .NET 8
 - Visual Studio
 - EF Core
 - ASP.NET Core
 - XUnit
 - Swagger
+- Docker
 
 ## 🛠️ Como Executar
 
-## 🛠️ Como Executar
+### Usando Docker
 
-### Usando Docker Compose
-
-1. Certifique-se de ter o [Docker](https://www.docker.com/get-started/) e o [Docker Compose](https://docs.docker.com/compose/) instalados em sua máquina.
+1. Certifique-se de ter o [Docker](https://www.docker.com/get-started/) instalado em sua máquina.
 2. No terminal, navegue até a raiz do projeto.
-3. Execute o comando abaixo para construir e iniciar os containers:4. O serviço estará disponível conforme configurado no arquivo `docker-compose.yml` (por exemplo, em `http://localhost:5000`).
-5. Para parar os containers, utilize:
+3. Execute o comando abaixo para construir e iniciar os containers:
+
+```bash
+docker-compose up -d
+```
+
+4. O serviço estará disponível em `http://localhost:5001/swagger`.
 
 ## 🧪 Testes
 
-- Para rodar os testes, utilize o Test Explorer do Visual Studio.
-- Você também pode executar via terminal:
+- Para rodar os testes, utilize o **Test Explorer** do Visual Studio.
+- Ou execute via terminal:
 
-## 📦 Estrutura do Projeto
+```bash
+dotnet test
+```
+
 ## 🤝 Contribuição
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
@@ -43,4 +49,4 @@ Este projeto está licenciado sob a licença MIT.
 
 ---
 
-Feito com ❤️ usando .NET 8!
+Feito com ❤️!
