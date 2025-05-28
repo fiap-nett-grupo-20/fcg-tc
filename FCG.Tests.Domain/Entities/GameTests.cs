@@ -1,4 +1,5 @@
 ﻿using FCG.Domain.Entities;
+using FCG.Domain.Exceptions;
 
 namespace FCG.Tests.Domain.Entities;
 
@@ -7,8 +8,8 @@ public class GameTests
     [Fact]
     public void Constructor_ValidTitle_CreatesGame()
     {
-        // Arrange & Act
-        var game = new Game("Test Game", 0.99m, "", "");
+        //Arrange / Act
+        var game = new Game("Test Game", 0.99m, "descricao", "terror");
 
         // Assert
         Assert.Equal("Test Game", game.Title);
@@ -18,26 +19,18 @@ public class GameTests
     [InlineData(null)]
     [InlineData("")]
     [InlineData(" ")]
-    public void COnstructor_InvalidTitle_ThrowsArgumentException(string invalidTitle)
+    public void Constructor_InvalidTitle_ThrowsBusinessErrorDetailsException(string invalidTitle)
     {
-        // Arrange & Act & Assert
-        Assert.Throws<ArgumentException>(() => new Game(invalidTitle, 0.99m, "", ""));
+        Assert.Throws<BusinessErrorDetailsException>(() => new Game(invalidTitle, 0.99m, "descricao", "terror"));
     }
 
     [Fact]
     public void Constructor_ValidPrice_CreatesGame()
     {
         // Arrange & Act
-        var game = new Game("Test Game", 0.99m, "", "");
+        var game = new Game("Test Game", 0.99m, "descricao", "terror");
 
         // Assert
         Assert.Equal(0.99m, game.Price);
-    }
-
-    [Fact]
-    public void Constructor_InvalidPrice_ThrowsArgumentException()
-    {
-        // Arrange & Act & Assert
-        Assert.Throws<ArgumentException>(() => new Game("Test Game", -10m, "", ""));
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using FCG.Domain.Entities;
+using FCG.Domain.ValueObjects;
 
 namespace FCG.Infra.Data.Mappings
 {
@@ -20,20 +21,17 @@ namespace FCG.Infra.Data.Mappings
                    .HasMaxLength(100);
 
             builder.Property(j => j.Description)
-                   .IsRequired();
+                   .IsRequired()
+                   .HasMaxLength(500);
 
             builder.Property(j => j.Genre)
+                   .IsRequired()
                    .HasMaxLength(50);
 
-            builder.Property(j => j.Price).HasPrecision(6);
+            builder.Property(j => j.Price)
+                .IsRequired()
+                .HasColumnType("decimal(18,2)");
 
-            //builder.Property(j => j.DataLancamento);
-
-            //builder.Property(j => j.Plataforma)
-            //       .HasMaxLength(50);
-
-            //builder.Property(j => j.UsuarioId)
-            //       .IsRequired();
         }
     }
 }

@@ -3,7 +3,9 @@ using FCG.Application.Services.Interfaces;
 using FCG.Domain.Entities;
 using FCG.Domain.Exceptions;
 using FCG.Domain.Interfaces;
+using FCG.Domain.ValueObjects;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -67,8 +69,6 @@ namespace FCG.Application.Services
 
             await _gameRepository.AddAsync(game);
 
-            //fazer verificacoes aqui
-
             return new GameDTO
             {
                 Id = (int)game.Id,
@@ -81,25 +81,38 @@ namespace FCG.Application.Services
 
         public async Task UpdateGameAsync(int id, UpdateGameModel model)
         {
-            var game = await _gameRepository.GetByIdAsync (id);
+            var game = await _gameRepository.GetByIdAsync(id);
 
             if (game == null)
-                throw new BusinessErrorDetailsException("Jogo não encontrado");
+                throw new NotFoundException($"Jogo {id} não encontrado.");
 
-            if(!string.IsNullOrWhiteSpace(model.Title))
+            if (!string.IsNullOrWhiteSpace(model.Title))
+            {
                 game.Title = model.Title;
+            }
+            else
+            {
+                throw new BusinessErrorDetailsException("O titulo do jogo nao pode ser vazio");
+            }
 
-            if(!string.IsNullOrWhiteSpace(model.Description))
+            if (!string.IsNullOrWhiteSpace(model.Description))
                 game.Description = model.Description;
 
             if(!string.IsNullOrEmpty(model.Genre))
                 game.Genre = model.Genre;
 
-            if(!decimal.IsNegative((decimal)model.Price))
-                game.Price = (decimal)model.Price;
+            //validations
+            Game.ValidateTitle(model.Title);
+            Game.ValidateDescription(model.Description);
+            Game.ValidateGenre(model.Genre);
+
+            //updating fields
+            game.Title = model.Title;
+            game.Price = model.Price;
+            game.Description = model.Description;
+            game.Genre = model.Genre;
 
             await _gameRepository.UpdateAsync(game);
-
         }
 
         public async Task DeleteGameAsync(int id)
@@ -107,14 +120,9 @@ namespace FCG.Application.Services
             var game = await _gameRepository.GetByIdAsync(id);
 
             if (game == null)
-                throw new BusinessErrorDetailsException("Jogo não encontrado.");
+                throw new NotFoundException($"Jogo {id} não encontrado.");
             
             await _gameRepository.DeleteAsync(id);
-
-            //fazer verificação se deu bom 
-            /*if (!result.Succeeded)
-                throw new BusinessErrorDetailsException("Erro ao excluir usuário: " + string.Join(", ", result.Errors.Select(e => e.Description)));
-            */
         }
     }
 }

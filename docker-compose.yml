@@ -17,4 +17,4 @@ services:
       - sqlserver
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__FCG: "Server=sqlserver;Initial Catalog=FCG;User Id=sa;Password=FCG@admin;TrustServerCertificate=true"
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Initial Catalog=FCG;User Id=sa;Password=FCG@admin;TrustServerCertificate=true"

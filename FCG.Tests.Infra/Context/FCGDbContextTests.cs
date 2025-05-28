@@ -14,7 +14,7 @@ public class FCGDbContextTests
 
         using (var context = new FCGDbContext(options))
         {
-            var user = new User("Test", "valid@fiap.com.br", "Senha@123");
+            var user = new User("Test", "valid@fiap.com.br");
             context.Users.Add(user);
             context.SaveChanges();
         }
