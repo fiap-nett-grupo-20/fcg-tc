@@ -24,9 +24,7 @@ public class GameRepositoryTests
     public async Task AddAsync_ValidGame_ShouldAddGameToDatabase()
     {
         // Arrange
-        Price price = new Price(199.99M);
-
-        var game = new Game("Game Title", price, "", "");
+        var game = new Game("Game Title", 199.99M, "descricao", "terror");
 
         // Act
         await _repository.AddAsync(game);

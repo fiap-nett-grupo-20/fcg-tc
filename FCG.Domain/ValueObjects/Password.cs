@@ -2,26 +2,44 @@
 
 namespace FCG.Domain.ValueObjects;
 
-public record Password
+public class Password
 {
-    public string? Hash { get; }
+    public string Hash { get; }
+
     public Password(string plainTextPassword)
     {
-        ValidatePassword(plainTextPassword);
+        Validate(plainTextPassword);
         Hash = BCrypt.Net.BCrypt.HashPassword(plainTextPassword);
     }
 
-    protected Password() { } // For EF Core
+    protected Password() { }
 
-    private void ValidatePassword(string plainTextPassword)
+    /// <summary>
+    /// Verifica se a senha em texto puro corresponde ao hash armazenado.
+    /// </summary>
+    public bool Verify(string plainTextPassword)
+    {
+        return BCrypt.Net.BCrypt.Verify(plainTextPassword, Hash);
+    }
+
+    /// <summary>
+    /// Validação interna da senha no momento da criação.
+    /// </summary>
+    private static void Validate(string plainTextPassword)
     {
         if (string.IsNullOrWhiteSpace(plainTextPassword))
-            throw new ArgumentException("Senha não pode ser vazia");
+            throw new ArgumentException("Senha não pode ser vazia.");
+
         if (plainTextPassword.Length < 8)
-            throw new ArgumentException("Senha deve ter pelo menos 8 caracteres");
-        if (!Regex.IsMatch(plainTextPassword, "[a-zA-Z]") ||
-            !Regex.IsMatch(plainTextPassword, "[0-9]") ||
-            !Regex.IsMatch(plainTextPassword, "[^a-zA-Z0-9]"))
-            throw new ArgumentException("Senha deve conter letras, números e símbolos.", nameof(plainTextPassword));
+            throw new ArgumentException("Senha deve ter pelo menos 8 caracteres.");
+
+        if (!Regex.IsMatch(plainTextPassword, "[a-zA-Z]"))
+            throw new ArgumentException("Senha deve conter pelo menos uma letra.");
+
+        if (!Regex.IsMatch(plainTextPassword, "[0-9]"))
+            throw new ArgumentException("Senha deve conter pelo menos um número.");
+
+        if (!Regex.IsMatch(plainTextPassword, "[^a-zA-Z0-9]"))
+            throw new ArgumentException("Senha deve conter pelo menos um símbolo.");
     }
 }

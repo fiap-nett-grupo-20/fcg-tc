@@ -30,10 +30,6 @@ namespace FCG.Infra.Data.Mappings
 
             builder.Property(j => j.Price)
                 .IsRequired()
-                .HasConversion(
-                    price => (decimal)price,
-                    amount => (Price)amount
-                )
                 .HasColumnType("decimal(18,2)");
 
         }

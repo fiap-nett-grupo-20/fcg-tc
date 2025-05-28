@@ -1,32 +1,27 @@
 ﻿using FCG.Domain.Enums;
-using FCG.Domain.ValueObjects;
+
+using Microsoft.AspNetCore.Identity;
 
 namespace FCG.Domain.Entities;
 
-public class User
+public class User : IdentityUser
 {
-    public string? Id { get; private set; }
-    public string? Name { get; set; }
-    public Email? Email { get; set; }
-    public Password? Password { get; set; }
-    public UserRole Role { get; set; }
-    public User(string name, string email, string password, UserRole role = UserRole.User)
+    public string Name { get; set; } = string.Empty;
+    public UserRole Role { get; set; } = UserRole.User;
+
+    public User(string name, string email, UserRole role = UserRole.User)
     {
         ValidateName(name);
-        Id = Guid.NewGuid().ToString();
         Name = name;
-        Email = new Email(email);
-        Password = new Password(password);
+        Email = email;
+        UserName = email; // Identity exige isso
         Role = role;
     }
 
-    protected User() { } // For EF Core
-
+    public User() { }
     private static void ValidateName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Nome não pode ser vazio ou nulo");
     }
-
-    public bool VerifyPassword(string plainTextPassword) => BCrypt.Net.BCrypt.Verify(plainTextPassword, Password.Hash);
 }

@@ -86,6 +86,21 @@ namespace FCG.Application.Services
             if (game == null)
                 throw new NotFoundException($"Jogo {id} não encontrado.");
 
+            if (!string.IsNullOrWhiteSpace(model.Title))
+            {
+                game.Title = model.Title;
+            }
+            else
+            {
+                throw new BusinessErrorDetailsException("O titulo do jogo nao pode ser vazio");
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.Description))
+                game.Description = model.Description;
+
+            if(!string.IsNullOrEmpty(model.Genre))
+                game.Genre = model.Genre;
+
             //validations
             Game.ValidateTitle(model.Title);
             Game.ValidateDescription(model.Description);
