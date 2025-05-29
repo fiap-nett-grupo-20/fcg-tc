@@ -6,6 +6,20 @@ Fiap Cloud Games (FCG) é uma plataforma inovadora de jogos na nuvem desenvolvid
 
 [Documentação](https://www.notion.so/Fiap-Cloud-Games-FCG-1dea50ade75480e78653c05e2cca2193?pvs=4)
 
+## 🚀 Metas
+- [X] Gerenciamento de usuários.
+- [X] Gerenciamento de jogos.
+- [X] Autenticação de usuários com JWT.
+- [X] Níveis de acesso (Admin e Usuario comum).
+- [X] Documentação da API com swagger.
+- [ ] Biblioteca de jogos.
+- [ ] Integração com plataformas de jogos (Steam, Epic Games, etc).
+- [ ] Compra de jogos (com pagamento).
+- [ ] Gerenciamento e aplicação de promoções.
+- [ ] Hospedagem da aplicação em um ambiente cloud (Azure, AWS ou GCP).
+- [ ] Pipeline CI/CD com deploy automatizado.
+- [ ] Monitoramento de logs e desempenho com uma ferramenta de observabilidade (ex: Application Insights, Grafana).
+      
 ## ⚙️ Tecnologias Utilizadas
 
 - .NET 8
@@ -38,6 +52,9 @@ docker-compose up -d
 ```bash
 dotnet test
 ```
+
+
+
 
 ## 🤝 Contribuição
 
