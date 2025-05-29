@@ -10,7 +10,7 @@ Fiap Cloud Games (FCG) é uma plataforma inovadora de jogos na nuvem desenvolvid
 - [X] Gerenciamento de usuários.
 - [X] Gerenciamento de jogos.
 - [X] Autenticação de usuários com JWT.
-- [X] Níveis de acesso (Admin e Usuario comum).
+- [X] Níveis de acesso (Admin e Usuário comum).
 - [X] Documentação da API com swagger.
 - [ ] Biblioteca de jogos.
 - [ ] Integração com plataformas de jogos (Steam, Epic Games, etc).
