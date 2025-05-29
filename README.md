@@ -22,13 +22,13 @@ Fiap Cloud Games (FCG) é uma plataforma inovadora de jogos na nuvem desenvolvid
       
 ## ⚙️ Tecnologias Utilizadas
 
-- .NET 8
-- Visual Studio
-- EF Core
-- ASP.NET Core
-- XUnit
-- Swagger
-- Docker
+- [.NET 8](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [Visual Studio](https://visualstudio.microsoft.com/pt-br/)
+- [EF Core](https://learn.microsoft.com/pt-br/ef/core/)
+- [ASP.NET Core](https://dotnet-microsoft-com.translate.goog/en-us/apps/aspnet?_x_tr_sl=en&_x_tr_tl=pt&_x_tr_hl=pt&_x_tr_pto=tc)
+- [XUnit](https://xunit.net/)
+- [Swagger](https://swagger.io/)
+- [Docker](https://www.docker.com/)
 
 ## 🛠️ Como Executar
 
