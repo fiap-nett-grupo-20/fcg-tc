@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FCG.Infra.Data.Seedings
 {
-    public static class RoleSeeding
+    public static class RoleAndAdminSeeding
     {
         public static async Task SeedAsync(IServiceProvider serviceProvider)
         {
