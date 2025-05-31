@@ -40,11 +40,8 @@ namespace FCG.Infra.Data.Seedings
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
             if (adminUser == null)
             {
-                adminUser = new User
+                adminUser = new User("Admin System", adminEmail)
                 {
-                    Name = "Admin System",
-                    Email = adminEmail,
-                    UserName = adminEmail,
                     EmailConfirmed = true
                 };
 

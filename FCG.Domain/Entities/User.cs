@@ -1,5 +1,5 @@
 ﻿using FCG.Domain.Enums;
-
+using FCG.Domain.ValueObjects;
 using Microsoft.AspNetCore.Identity;
 
 namespace FCG.Domain.Entities;
@@ -12,13 +12,15 @@ public class User : IdentityUser
     public User(string name, string email, UserRole role = UserRole.User)
     {
         ValidateName(name);
+        var emailAddress = new Email(email);
+
         Name = name;
-        Email = email;
-        UserName = email; // Identity exige isso
+        Email = emailAddress.Address;
+        UserName = emailAddress.Address; // Identity exige isso
         Role = role;
     }
 
-    public User() { }
+    protected User() { }
     private static void ValidateName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))

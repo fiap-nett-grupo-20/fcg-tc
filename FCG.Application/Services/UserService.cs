@@ -2,7 +2,7 @@
 using FCG.Domain.Entities;
 using FCG.Domain.Exceptions;
 using FCG.Domain.Interfaces;
-
+using FCG.Domain.ValueObjects;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -57,14 +57,10 @@ public class UserService : IUserService
         if (exists is not null)
             throw new BusinessErrorDetailsException("Já existe um usuário com este email.");
 
-        var user = new User
-        {
-            Name = model.NameUser,
-            Email = model.Email,
-            UserName = model.Email
-        };
+        var user = new User(model.NameUser, model.Email);
+        var password = new Password(model.Password);
 
-        var result = await _userManager.CreateAsync(user, model.Password);
+        var result = await _userManager.CreateAsync(user, password.PlainText);
         if (!result.Succeeded)
             throw new BusinessErrorDetailsException("Erro ao criar usuário: " + string.Join(", ", result.Errors.Select(e => e.Description)));
 
@@ -101,11 +97,13 @@ public class UserService : IUserService
 
         if (!string.IsNullOrWhiteSpace(model.Email))
         {
-            var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
+            var emailAddress = new Email(model.Email);
+
+            var setEmailResult = await _userManager.SetEmailAsync(user, emailAddress.Address);
             if (!setEmailResult.Succeeded)
                 throw new BusinessErrorDetailsException("Erro ao atualizar email: " + string.Join(", ", setEmailResult.Errors.Select(e => e.Description)));
 
-            var setUserNameResult = await _userManager.SetUserNameAsync(user, model.Email);
+            var setUserNameResult = await _userManager.SetUserNameAsync(user, emailAddress.Address);
             if (!setUserNameResult.Succeeded)
                 throw new BusinessErrorDetailsException("Erro ao atualizar username: " + string.Join(", ", setUserNameResult.Errors.Select(e => e.Description)));
         }

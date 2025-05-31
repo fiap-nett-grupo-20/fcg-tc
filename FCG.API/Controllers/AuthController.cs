@@ -1,6 +1,6 @@
 ﻿using FCG.Application.DTO;
 using FCG.Domain.Entities;
-
+using FCG.Domain.ValueObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -32,14 +32,10 @@ namespace FCG.API.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterDto dto)
         {
-            var user = new User
-            {
-                Name = dto.Name,
-                Email = dto.Email,
-                UserName = dto.Email
-            };
+            var user = new User(dto.Name, dto.Email);
+            var password = new Password(dto.Password);
 
-            var result = await _userManager.CreateAsync(user, dto.Password);
+            var result = await _userManager.CreateAsync(user, password.PlainText);
 
             if (!result.Succeeded)
                 return BadRequest(result.Errors);

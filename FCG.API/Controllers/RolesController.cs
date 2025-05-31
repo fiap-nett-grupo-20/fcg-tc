@@ -11,7 +11,7 @@ namespace FCG.API.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize(Roles = "Admin")]
-public class RolesController : ControllerBase
+public class RolesController : ApiBaseController
 {
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly UserManager<User> _userManager;
@@ -72,7 +72,7 @@ public class RolesController : ControllerBase
         var result = await _roleManager.UpdateAsync(role);
 
         if (result.Succeeded)
-            return NoContent();
+            return Success("Role atualizada com sucesso!");
 
         return BadRequest(result.Errors);
     }

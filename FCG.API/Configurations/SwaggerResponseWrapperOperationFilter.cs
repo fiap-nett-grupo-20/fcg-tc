@@ -23,6 +23,24 @@ namespace FCG.API.Configurations
                 }
             });
 
+            operation.Responses.Add("201", new OpenApiResponse
+            {
+                Description = "Recurso criado com sucesso.",
+                Content = new Dictionary<string, OpenApiMediaType>
+                {
+                    ["application/json"] = new OpenApiMediaType { Schema = schema }
+                }
+            });
+
+            operation.Responses.Add("204", new OpenApiResponse
+            {
+                Description = "Requisição bem sucedida, sem conteúdo.",
+                Content = new Dictionary<string, OpenApiMediaType>
+                {
+                    ["application/json"] = new OpenApiMediaType { Schema = schema }
+                }
+            });
+
             operation.Responses.Add("400", new OpenApiResponse
             {
                 Description = "Erro na requisição ou regra de negócio.",
