@@ -93,7 +93,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsStaging() || app.Enviro
 
     await dbContext.Database.EnsureCreatedAsync();
 
-    await RoleSeeding.SeedAsync(scope.ServiceProvider);
+    await RoleAndAdminSeeding.SeedAsync(scope.ServiceProvider);
     await GameSeeding.SeedAsync(dbContext);
 }
 else
