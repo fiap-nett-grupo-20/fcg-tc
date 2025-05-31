@@ -52,6 +52,6 @@ public class UsersController : ApiBaseController
     public async Task<IActionResult> DeleteUser(string id)
     {
         await _userService.DeleteUserAsync(id);
-        return Success("Usuário deletado com sucesso.");
+        return NoContent();
     }
 }

@@ -2,13 +2,15 @@
 using FCG.Application.Services.Interfaces;
 using FCG.Domain.Entities;
 using FCG.Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FCG.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GamesController : ControllerBase
+    [Authorize]
+    public class GamesController : ApiBaseController
     {
         private readonly IGameService _gameService;
 
@@ -18,46 +20,49 @@ namespace FCG.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GameDTO>>> GetGames()
+        public async Task<IActionResult> GetGames()
         {
             var games = await _gameService.GetAllGamesAsync();
 
-            return Ok(games);
+            return Success(games);
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<GameDTO>> GetGame(int id)
+        public async Task<IActionResult> GetGame(int id)
         {
            var game = await _gameService.GetGameByIdAsync(id);
 
-           return Ok(game);
+           return Success(game);
         }
 
         [HttpPost]
-        public async Task<ActionResult<GameDTO>> CreateGame(CreateGameModel model)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CreateGame(CreateGameModel model)
         {
             var user = await _gameService.CreateGameAsync(model);
 
-            return Ok(user);
+            return Success(user);
             
         }
 
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateGame(int id, UpdateGameModel model)
         {
             await _gameService.UpdateGameAsync(id,  model);
-            return Ok();
+            return Success("Jogo atualizado com sucesso!");
         }
         
         
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteGame([FromRoute] int id)
         {
             
             await _gameService.DeleteGameAsync(id);
 
-            return Ok();
+            return NoContent();
            
         }
     }
