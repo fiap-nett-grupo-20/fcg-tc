@@ -42,7 +42,16 @@ Fiap Cloud Games (FCG) é uma plataforma inovadora de jogos na nuvem desenvolvid
 docker-compose up -d
 ```
 
-4. O serviço estará disponível em `http://localhost:5001/swagger`.
+4. O serviço estará disponível em `http://localhost:5001/`.
+
+5. Para se autenticar, vá para o endpoint '/api/auth/login' e use as credenciais abaixo: 
+```json
+{
+  "email": "admin@fcg.com",
+  "password": "Admin1234!"
+}
+```
+Obs: Essas credenciais são criadas automaticamente por motivos academicos
 
 ## 🧪 Testes
 
@@ -52,9 +61,6 @@ docker-compose up -d
 ```bash
 dotnet test
 ```
-
-
-
 
 ## 🤝 Contribuição
 
