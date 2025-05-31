@@ -3,15 +3,7 @@ using FCG.Application.Services.Interfaces;
 using FCG.Domain.Entities;
 using FCG.Domain.Exceptions;
 using FCG.Domain.Interfaces;
-using FCG.Domain.ValueObjects;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FCG.Application.Services
 {
@@ -31,10 +23,10 @@ namespace FCG.Application.Services
             var gamesDto = games.Select(game => new GameDTO
             {
                 Id = (int)game.Id,
-                Title = game.Title,
+                Title = game.Title ?? "",
                 Price = game.Price,
-                Description = game.Description,
-                Genre = game.Genre
+                Description = game.Description ?? "",
+                Genre = game.Genre ?? ""
             }).ToList();
 
             return gamesDto;
@@ -45,15 +37,15 @@ namespace FCG.Application.Services
             var game = await _gameRepository.GetByIdAsync(id);
 
             if (game == null)
-                throw new BusinessErrorDetailsException("Jogo não encontrado.");
+                throw new NotFoundException("Jogo não encontrado.");
 
             return new GameDTO
             {
                 Id = (int)game.Id,
-                Title = game.Title,
+                Title = game.Title ?? "",
                 Price = game.Price,
-                Description = game.Description,
-                Genre = game.Genre
+                Description = game.Description ?? "",
+                Genre = game.Genre ?? ""
             };
         }
 
@@ -72,10 +64,10 @@ namespace FCG.Application.Services
             return new GameDTO
             {
                 Id = (int)game.Id,
-                Title = game.Title,
+                Title = game.Title ?? "",
                 Price = game.Price,
-                Description = game.Description,
-                Genre = game.Genre
+                Description = game.Description ?? "",
+                Genre = game.Genre ?? ""
             };
         }
 
@@ -87,13 +79,10 @@ namespace FCG.Application.Services
                 throw new NotFoundException($"Jogo {id} não encontrado.");
 
             if (!string.IsNullOrWhiteSpace(model.Title))
-            {
                 game.Title = model.Title;
-            }
-            else
-            {
-                throw new BusinessErrorDetailsException("O titulo do jogo nao pode ser vazio");
-            }
+
+            if (model.Price.HasValue)
+                game.Price = model.Price.Value;
 
             if (!string.IsNullOrWhiteSpace(model.Description))
                 game.Description = model.Description;
@@ -102,15 +91,10 @@ namespace FCG.Application.Services
                 game.Genre = model.Genre;
 
             //validations
-            Game.ValidateTitle(model.Title);
-            Game.ValidateDescription(model.Description);
-            Game.ValidateGenre(model.Genre);
-
-            //updating fields
-            game.Title = model.Title;
-            game.Price = model.Price;
-            game.Description = model.Description;
-            game.Genre = model.Genre;
+            Game.ValidateTitle(game.Title);
+            Game.ValidateDescription(game.Description);
+            Game.ValidateGenre(game.Genre);
+            Game.ValidatePrice(game.Price);
 
             await _gameRepository.UpdateAsync(game);
         }

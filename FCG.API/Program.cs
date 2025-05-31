@@ -72,6 +72,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IGameService, GameService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSwaggerConfiguration();
 
 // ✅ Swagger
@@ -118,10 +120,8 @@ app.UseHsts();
 
 
 app.UseHttpsRedirection();
-app.UseMiddleware<ExceptionMiddleware>();
-
-app.UseMiddleware<ExceptionMiddleware>();
 app.UseMiddleware<ResponseWrapperMiddleware>();
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -5,10 +5,12 @@ namespace FCG.Domain.ValueObjects;
 public class Password
 {
     public string Hash { get; }
+    public string PlainText { get; private set; }
 
     public Password(string plainTextPassword)
     {
         Validate(plainTextPassword);
+        PlainText = plainTextPassword;
         Hash = BCrypt.Net.BCrypt.HashPassword(plainTextPassword);
     }
 
