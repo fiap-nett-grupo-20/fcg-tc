@@ -88,13 +88,21 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment() || app.Environment.IsStaging() || app.Environment.IsProduction())
 {
     app.UseSwaggerConfiguration();
-    await using var scope = app.Services.CreateAsyncScope();
-    await using var dbContext = scope.ServiceProvider.GetRequiredService<FCGDbContext>();
+    try
+    {
+        await using var scope = app.Services.CreateAsyncScope();
+        await using var dbContext = scope.ServiceProvider.GetRequiredService<FCGDbContext>();
+        dbContext.Database.EnsureCreated();
 
-    await dbContext.Database.EnsureCreatedAsync();
-
-    await RoleAndAdminSeeding.SeedAsync(scope.ServiceProvider);
-    await GameSeeding.SeedAsync(dbContext);
+        await RoleAndAdminSeeding.SeedAsync(scope.ServiceProvider);
+        await GameSeeding.SeedAsync(dbContext);
+    }
+    catch (Exception ex)
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($"Erro ao criar banco de dados: {ex.Message}");
+        Console.ForegroundColor = ConsoleColor.White;
+    }
 }
 else
 {
