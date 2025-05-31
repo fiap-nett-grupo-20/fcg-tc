@@ -92,10 +92,11 @@ if (app.Environment.IsDevelopment() || app.Environment.IsStaging() || app.Enviro
     {
         await using var scope = app.Services.CreateAsyncScope();
         await using var dbContext = scope.ServiceProvider.GetRequiredService<FCGDbContext>();
-        dbContext.Database.EnsureCreated();
-
-        await RoleAndAdminSeeding.SeedAsync(scope.ServiceProvider);
-        await GameSeeding.SeedAsync(dbContext);
+        if (dbContext.Database.EnsureCreated())
+        {
+            await RoleAndAdminSeeding.SeedAsync(scope.ServiceProvider);
+            await GameSeeding.SeedAsync(dbContext);
+        }
     }
     catch (Exception ex)
     {
