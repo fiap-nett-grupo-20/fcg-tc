@@ -50,6 +50,15 @@ namespace FCG.API.Configurations
                 }
             });
 
+            operation.Responses.Add("401", new OpenApiResponse
+            {
+                Description = "Não autorizado.",
+                Content = new Dictionary<string, OpenApiMediaType>
+                {
+                    ["application/json"] = new OpenApiMediaType { Schema = schema }
+                }
+            });
+
             operation.Responses.Add("404", new OpenApiResponse
             {
                 Description = "Recurso não encontrado.",

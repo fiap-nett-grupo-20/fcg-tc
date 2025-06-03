@@ -1,10 +1,6 @@
 ﻿using FCG.API.Controllers;
-using FCG.Application;
 using FCG.Application.DTO;
-using FCG.Domain.Entities;
-
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 [Route("api/[controller]")]
@@ -41,8 +37,8 @@ public class UsersController : ApiBaseController
         return CreatedResponse(user, "Usuário criado com sucesso.");
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUser(string id, UpdateUserModel model)
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> PartialUpdateUser(string id, UpdateUserModel model)
     {
         await _userService.UpdateUserAsync(id, model);
         return Success("Usuário atualizado com sucesso.");

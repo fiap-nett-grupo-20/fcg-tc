@@ -57,7 +57,7 @@ public class UserService : IUserService
         if (exists is not null)
             throw new BusinessErrorDetailsException("Já existe um usuário com este email.");
 
-        var user = new User(model.NameUser, model.Email);
+        var user = new User(model.Name, model.Email);
         var password = new Password(model.Password);
 
         var result = await _userManager.CreateAsync(user, password.PlainText);
@@ -92,8 +92,8 @@ public class UserService : IUserService
         if (user is null)
             throw new NotFoundException("Usuário não encontrado.");
 
-        if (!string.IsNullOrWhiteSpace(model.NameUser))
-            user.Name = model.NameUser;
+        if (!string.IsNullOrWhiteSpace(model.Name))
+            user.Name = model.Name;
 
         if (!string.IsNullOrWhiteSpace(model.Email))
         {
@@ -108,12 +108,13 @@ public class UserService : IUserService
                 throw new BusinessErrorDetailsException("Erro ao atualizar username: " + string.Join(", ", setUserNameResult.Errors.Select(e => e.Description)));
         }
 
-        if (!string.IsNullOrWhiteSpace(model.PhoneNumber))
-        {
-            var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
-            if (!setPhoneResult.Succeeded)
-                throw new BusinessErrorDetailsException("Erro ao atualizar telefone: " + string.Join(", ", setPhoneResult.Errors.Select(e => e.Description)));
-        }
+        //TODO: Alterar na fase 2
+        //if (!string.IsNullOrWhiteSpace(model.PhoneNumber))
+        //{
+        //    var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
+        //    if (!setPhoneResult.Succeeded)
+        //        throw new BusinessErrorDetailsException("Erro ao atualizar telefone: " + string.Join(", ", setPhoneResult.Errors.Select(e => e.Description)));
+        //}
 
         var updateResult = await _userManager.UpdateAsync(user);
         if (!updateResult.Succeeded)
