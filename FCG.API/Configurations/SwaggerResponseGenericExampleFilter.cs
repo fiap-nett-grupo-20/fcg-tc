@@ -13,7 +13,6 @@ namespace FCG.API.Configurations
                 var example = response.Key switch
                 {
                     "200" or "201" => GenerateSuccessExample(response.Key),
-                    "204" => GenerateNoContentExample(),
                     "400" => GenerateErrorExample(400, "Erro de regra de negócio ou requisição inválida."),
                     "401" => GenerateErrorExample(401, "Recurso não autorizado."),
                     "404" => GenerateErrorExample(404, "Recurso não encontrado."),
@@ -45,21 +44,6 @@ namespace FCG.API.Configurations
                     ["statusCode"] = new OpenApiInteger(Convert.ToInt32(statusCode)),
                     ["message"] = new OpenApiString("Operação realizada com sucesso."),
                     ["data"] = new OpenApiObject()
-                }
-            };
-        }
-
-        private OpenApiExample GenerateNoContentExample()
-        {
-            return new OpenApiExample
-            {
-                Summary = "Sem conteúdo",
-                Value = new OpenApiObject
-                {
-                    ["success"] = new OpenApiBoolean(true),
-                    ["statusCode"] = new OpenApiInteger(204),
-                    ["message"] = new OpenApiString("Operação concluída, sem retorno."),
-                    ["data"] = new OpenApiNull()
                 }
             };
         }
