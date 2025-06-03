@@ -12,9 +12,9 @@ namespace FCG.API.Configurations
             {
                 var example = response.Key switch
                 {
-                    "200" or "201" => GenerateSuccessExample(),
-                    "204" => GenerateNoContentExample(),
+                    "200" or "201" => GenerateSuccessExample(response.Key),
                     "400" => GenerateErrorExample(400, "Erro de regra de negócio ou requisição inválida."),
+                    "401" => GenerateErrorExample(401, "Recurso não autorizado."),
                     "404" => GenerateErrorExample(404, "Recurso não encontrado."),
                     "500" => GenerateErrorExample(500, "Erro interno no servidor."),
                     _ => null
@@ -33,7 +33,7 @@ namespace FCG.API.Configurations
             }
         }
 
-        private OpenApiExample GenerateSuccessExample()
+        private OpenApiExample GenerateSuccessExample(string statusCode)
         {
             return new OpenApiExample
             {
@@ -41,24 +41,9 @@ namespace FCG.API.Configurations
                 Value = new OpenApiObject
                 {
                     ["success"] = new OpenApiBoolean(true),
-                    ["statusCode"] = new OpenApiInteger(200),
+                    ["statusCode"] = new OpenApiInteger(Convert.ToInt32(statusCode)),
                     ["message"] = new OpenApiString("Operação realizada com sucesso."),
                     ["data"] = new OpenApiObject()
-                }
-            };
-        }
-
-        private OpenApiExample GenerateNoContentExample()
-        {
-            return new OpenApiExample
-            {
-                Summary = "Sem conteúdo",
-                Value = new OpenApiObject
-                {
-                    ["success"] = new OpenApiBoolean(true),
-                    ["statusCode"] = new OpenApiInteger(204),
-                    ["message"] = new OpenApiString("Operação concluída, sem retorno."),
-                    ["data"] = new OpenApiNull()
                 }
             };
         }

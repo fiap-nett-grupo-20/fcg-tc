@@ -9,7 +9,7 @@ namespace FCG.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : ApiBaseController
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
@@ -42,7 +42,7 @@ namespace FCG.API.Controllers
 
             await _userManager.AddToRoleAsync(user, "User");
 
-            return Ok(new { Message = "Usuário registrado com sucesso!" });
+            return CreatedResponse(user, "Usuário registrado com sucesso!");
         }
 
         [HttpPost("login")]
@@ -53,16 +53,15 @@ namespace FCG.API.Controllers
             {
                 var user = await _userManager.FindByEmailAsync(dto.Email);
                 if (user == null)
-                    return Unauthorized("Usuário ou senha inválidos.");
+                    return UnauthorizedResponse("Usuário ou senha inválidos.");
 
                 var result = await _signInManager.CheckPasswordSignInAsync(user, dto.Password, false);
                 if (!result.Succeeded)
-                    return Unauthorized("Usuário ou senha inválidos.");
+                    return UnauthorizedResponse("Usuário ou senha inválidos.");
 
                 var roles = await _userManager.GetRolesAsync(user);
                 var token = _jwtService.GenerateToken(user, roles);
-
-                return Ok(new
+                var response = new
                 {
                     Token = token,
                     User = new
@@ -72,13 +71,15 @@ namespace FCG.API.Controllers
                         user.Name,
                         roles
                     }
-                });
+                };
+
+                return Success(response);
             }
             catch (Exception ex)
             {
                 throw;
             }
-           
+
         }
     }
 }

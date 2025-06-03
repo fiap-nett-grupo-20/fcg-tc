@@ -19,6 +19,12 @@ namespace FCG.API.Controllers
             return StatusCode(201, response);
         }
 
+        protected IActionResult UnauthorizedResponse(string message)
+        {
+            var response = ResponseWrapper<object>.FailResponse(message, 401);
+            return Unauthorized(response);
+        }
+
         protected IActionResult Fail(string message, int statusCode = 400)
         {
             var response = ResponseWrapper<string>.FailResponse(message, statusCode);

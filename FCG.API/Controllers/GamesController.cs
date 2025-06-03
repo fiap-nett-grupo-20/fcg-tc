@@ -1,7 +1,5 @@
 ﻿using FCG.Application.DTO;
 using FCG.Application.Services.Interfaces;
-using FCG.Domain.Entities;
-using FCG.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +22,7 @@ namespace FCG.API.Controllers
         {
             var games = await _gameService.GetAllGamesAsync();
 
-            return Success(games);
+            return Success(games, "Lista de jogos retornada com sucesso.");
         }
 
         [HttpGet("{id:int}")]
@@ -32,23 +30,21 @@ namespace FCG.API.Controllers
         {
            var game = await _gameService.GetGameByIdAsync(id);
 
-           return Success(game);
+           return Success(game, "Jogo encontrado.");
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateGame(CreateGameModel model)
         {
-            var user = await _gameService.CreateGameAsync(model);
-
-            return Success(user);
-            
+            var game = await _gameService.CreateGameAsync(model);
+            return CreatedResponse(game, "Jogo criado com sucesso.");
         }
 
 
-        [HttpPut("{id}")]
+        [HttpPatch("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateGame(int id, UpdateGameModel model)
+        public async Task<IActionResult> PartialUpdateGame(int id, UpdateGameModel model)
         {
             await _gameService.UpdateGameAsync(id,  model);
             return Success("Jogo atualizado com sucesso!");
@@ -61,9 +57,7 @@ namespace FCG.API.Controllers
         {
             
             await _gameService.DeleteGameAsync(id);
-
             return NoContent();
-           
         }
     }
 }

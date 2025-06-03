@@ -120,7 +120,6 @@ app.UseHsts();
 
 
 app.UseHttpsRedirection();
-app.UseMiddleware<ResponseWrapperMiddleware>();
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseAuthentication();
