@@ -51,6 +51,10 @@ namespace FCG.Application.Services
 
         public async Task<GameDTO> CreateGameAsync(CreateGameModel model)
         {
+            var existingGame = await _gameRepository.GetByTitleAsync(model.Title);
+            if (existingGame is not null)
+                throw new BusinessErrorDetailsException("Já existe um jogo com este título.");
+
             var game = new Game
             (
                 model.Title,
@@ -74,6 +78,13 @@ namespace FCG.Application.Services
         public async Task UpdateGameAsync(int id, UpdateGameModel model)
         {
             var game = await _gameRepository.GetByIdAsync(id);
+
+            if (!string.IsNullOrWhiteSpace(model.Title) && !game.Title.Equals(model.Title, StringComparison.OrdinalIgnoreCase))
+            {
+                var existingGame = await _gameRepository.GetByTitleAsync(model.Title);
+                if (existingGame != null && existingGame.Id != game.Id)
+                    throw new BusinessErrorDetailsException("Já existe outro jogo com este título.");
+            }
 
             if (game == null)
                 throw new NotFoundException($"Jogo {id} não encontrado.");
