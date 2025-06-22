@@ -47,7 +47,7 @@ docker-compose up -d
 5. Para se autenticar, vá para o endpoint '/api/auth/login' e use as credenciais abaixo: 
 ```json
 {
-  "email": "admin@fcg.com",
+  "email": "admin@fiap.com.br",
   "password": "Admin1234!"
 }
 ```
