@@ -9,6 +9,7 @@ namespace FCG.Infra.Data.Repository;
 public class GameRepository(FCGDbContext context) : IGameRepository
 {
     private readonly FCGDbContext _context = context;
+    private const string CaseAndAccentInsensitive = "SQL_Latin1_General_CP1_CI_AI"; 
     public async Task AddAsync(Game game)
     {
         await _context.Games.AddAsync(game);
@@ -34,6 +35,13 @@ public class GameRepository(FCGDbContext context) : IGameRepository
     {
         return
             await _context.Games.FirstOrDefaultAsync(u => u.Id == id);
+    }
+
+    public async Task<Game?> GetByTitleAsync(string title)
+    {
+            return await _context.Games
+                .FirstOrDefaultAsync(g => EF.Functions.Collate(g.Title, CaseAndAccentInsensitive) ==
+                                         EF.Functions.Collate(title, CaseAndAccentInsensitive));
     }
 
     public async Task UpdateAsync(Game game)
