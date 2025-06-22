@@ -7,8 +7,10 @@ namespace FCG.Infra.Data.Seedings
     {
         public static async Task SeedAsync(DbContext context)
         {
-            Console.WriteLine("Starting game seed...");
-            var gamesToSeed = new List<Game>()
+            try
+            {
+                Console.WriteLine("Starting game seed...");
+                var gamesToSeed = new List<Game>()
             {
                 new("The Legend of Zelda: Breath of the Wild", 59.99m, "Um jogo de aventura em mundo aberto onde você explora o reino de Hyrule.", "Aventura"),
                 new("Super Mario Odyssey", 49.99m, "Uma aventura 3D com Mario em diversos mundos para resgatar a Princesa Peach.", "Plataforma"),
@@ -19,15 +21,20 @@ namespace FCG.Infra.Data.Seedings
                 new("Hollow Knight", 14.99m, "Um jogo de plataforma e ação em um mundo subterrâneo cheio de segredos e desafios.", "Metroidvania"),
             };
 
-            var exists = await context.Set<Game>()
-                .AnyAsync(g => g.Title == gamesToSeed[0].Title);
+                var exists = await context.Set<Game>()
+                    .AnyAsync(g => g.Title == gamesToSeed[0].Title);
 
-            if (!exists)
-            {
-                await context.Set<Game>().AddRangeAsync(gamesToSeed);
-                await context.SaveChangesAsync();
+                if (!exists)
+                {
+                    await context.Set<Game>().AddRangeAsync(gamesToSeed);
+                    await context.SaveChangesAsync();
+                }
+                Console.WriteLine("Game seed completed!");
             }
-            Console.WriteLine("Game seed completed!");
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error on game seed: {ex.Message}");
+            }
         }
     }
 }

@@ -102,9 +102,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsStaging() || app.Enviro
     }
     catch (Exception ex)
     {
-        Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine($"Erro ao criar banco de dados: {ex.Message}");
-        Console.ForegroundColor = ConsoleColor.White;
     }
 }
 else

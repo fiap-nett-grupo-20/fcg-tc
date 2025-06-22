@@ -39,7 +39,7 @@ Fiap Cloud Games (FCG) é uma plataforma inovadora de jogos na nuvem desenvolvid
 3. Execute o comando abaixo para construir e iniciar os containers:
 
 ```bash
-docker-compose up -d
+docker-compose up -d --build
 ```
 
 4. O serviço estará disponível em `http://localhost:5001/`.
@@ -47,7 +47,7 @@ docker-compose up -d
 5. Para se autenticar, vá para o endpoint '/api/auth/login' e use as credenciais abaixo: 
 ```json
 {
-  "email": "admin@fcg.com",
+  "email": "admin@fiap.com.br",
   "password": "Admin1234!"
 }
 ```
