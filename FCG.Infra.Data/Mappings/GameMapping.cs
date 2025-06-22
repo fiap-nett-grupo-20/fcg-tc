@@ -18,7 +18,12 @@ namespace FCG.Infra.Data.Mappings
 
             builder.Property(j => j.Title)
                    .IsRequired()
-                   .HasMaxLength(100);
+                   .HasMaxLength(100)
+                   .UseCollation("SQL_Latin1_General_CP1_CI_AI");
+
+            builder.HasIndex(j => j.Title)
+                .IsUnique()
+                .IsClustered(false);
 
             builder.Property(j => j.Description)
                    .IsRequired()
