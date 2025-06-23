@@ -36,6 +36,13 @@ public class GameRepository(FCGDbContext context) : IGameRepository
             await _context.Games.FirstOrDefaultAsync(u => u.Id == id);
     }
 
+    public async Task<bool> TitleExistsAsync(string title)
+    {
+        return await _context.Games
+            .AsNoTracking()
+            .AnyAsync(g => g.Title != null && g.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
+    }
+
     public async Task UpdateAsync(Game game)
     {
         _context.Games.Update(game);
