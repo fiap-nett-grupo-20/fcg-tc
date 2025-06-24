@@ -20,8 +20,12 @@ public class GameRepository(FCGDbContext context) : IGameRepository
     public async Task DeleteAsync(int id)
     {
         var game = await GetBy(g => g.Id.Equals(id));
-        _context.Games.Remove(game);
-        await _context.SaveChangesAsync();
+        if (game != null)
+        {
+            _context.Games.Attach(game);
+            _context.Games.Remove(game);
+            await _context.SaveChangesAsync();
+        }
     }
 
     public async Task<IEnumerable<Game>> GetAllAsync()
